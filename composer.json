@@ -1,0 +1,13 @@
+{
+  "name": "bubeha/blog-api",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^7.4|^8.0",
+    "slim/slim": "4.*",
+    "slim/psr7": "^1.3"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  }
+}
