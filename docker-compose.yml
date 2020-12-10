@@ -5,6 +5,7 @@ services:
       context: ./.docker/php-fpm
       args:
         PHP_VERSION: 8
+        XDEBUG_VERSION: 3.0.1
     env_file: .env
     user: "$_UID:$_GID"
     volumes:
@@ -14,6 +15,8 @@ services:
       - postgres
     depends_on:
       - postgres
+    environment:
+      PHP_IDE_CONFIG: "serverName=docker"
 
   nginx:
     image: "nginx:1.19.3-alpine"
