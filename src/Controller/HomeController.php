@@ -4,25 +4,24 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Home Controller.
+ * Home AbstractController.
  */
-class HomeController
+class HomeController extends AbstractController
 {
     /**
      * Home Action.
      *
-     * @param ResponseInterface $response Psr Response
+     * @throws \JsonException
      *
      * @return ResponseInterface
      */
-    public function home(ResponseInterface $response): ResponseInterface
+    public function home(): ResponseInterface
     {
-        $response->getBody()->write('Hello world!');
+        $data = 'Hello World!!';
 
-        return $response;
+        return $this->json($data);
     }
 }
