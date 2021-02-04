@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -16,7 +16,7 @@ abstract class AbstractController
 
     /**
      * AbstractController constructor.
-     * @param \Psr\Http\Message\ResponseInterface $response Psr-7 Response Interface
+     * @param \Psr\Http\Message\ResponseInterface $response
      */
     public function __construct(ResponseInterface $response)
     {
@@ -24,12 +24,13 @@ abstract class AbstractController
     }
 
     /**
-     * @param string|array $data Data to json
-     * @param int $status Http Status
+     * @param string|array $data
+     * @param integer $status
+     *
      * @return ResponseInterface
      * @throws \JsonException
      */
-    protected function json(array|string $data, int $status = 200): ResponseInterface
+    protected function json(array | string $data, int $status = 200): ResponseInterface
     {
         $data = json_encode($data, JSON_THROW_ON_ERROR);
 

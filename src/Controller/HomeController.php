@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Services\Config\Contract;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -14,13 +15,15 @@ class HomeController extends AbstractController
     /**
      * Home Action.
      *
-     * @throws \JsonException
+     * @param Contract $contract
      *
      * @return ResponseInterface
+     *
+     * @throws \JsonException
      */
-    public function home(): ResponseInterface
+    public function home(Contract $contract): ResponseInterface
     {
-        $data = 'Hello World!!';
+        $data = $contract->get('app.name', 'test');
 
         return $this->json($data);
     }

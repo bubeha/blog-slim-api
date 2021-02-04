@@ -13,29 +13,40 @@
     <file>./config</file>
     <file>./public/index.php</file>
 
-    <rule ref="PSR2"></rule>
-    <!-- <rule ref="PSR12"></rule> -->
+    <rule ref="PSR12"/>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <type>warning</type>
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceBetweenOpenTagAndDeclare"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectStrictTypesFormat"/>
+    </rule>
 
     <rule ref="Squiz.Commenting.ClassComment">
         <exclude name="Squiz.Commenting.ClassComment.TagNotAllowed"/>
         <type>warning</type>
         <exclude-pattern>*/tests/</exclude-pattern>
     </rule>
+
     <rule ref="Squiz.Commenting.ClassComment.Missing">
         <type>warning</type>
     </rule>
-    <rule ref="Squiz.Commenting.FunctionComment.Missing">
+
+    <rule ref="Squiz.Commenting.FunctionComment">
         <type>warning</type>
-        <exclude-pattern>*/config/</exclude-pattern>
+        <properties>
+            <property name="skipIfInheritdoc" value="true" />
+        </properties>
+
+        <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment"/>
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
+        <exclude name="Squiz.Commenting.FunctionComment.EmptyThrows"/>
     </rule>
-    <rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
-        <type>warning</type>
-    </rule>
-    <rule ref="Squiz.Commenting.FunctionComment.MissingParamComment">
-        <type>warning</type>
-    </rule>
-    <rule ref="Squiz.Commenting.FunctionComment.ParamCommentNotCapital">
-        <type>warning</type>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120" />
+            <property name="absoluteLineLimit" value="135" />
+        </properties>
     </rule>
 
     <rule ref="Generic.Metrics.CyclomaticComplexity">
@@ -49,4 +60,22 @@
             <property name="absoluteNestingLevel" value="4"/>
         </properties>
     </rule>
+
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="print" value="echo"/>
+                <element key="sizeof" value="count"/>
+                <element key="delete" value="unset" />
+                <element key="create_function" value="null"/>
+                <element key="var_dump" value="null"/>
+                <element key="dd" value="null"/>
+                <element key="eval" value="null"/>
+                <element key="eval" value="null"/>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Commenting.DocComment.NonParamGroup"/>
+
 </ruleset>
