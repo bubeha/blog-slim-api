@@ -14,12 +14,14 @@
     "php-di/php-di": "^6.3"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-master",
-    "squizlabs/php_codesniffer": "dev-master",
-    "vimeo/psalm": "^4.3",
+    "lctrs/psalm-psr-container-plugin": "^1.1",
     "phpunit/phpunit": "^9.5",
+    "psalm/plugin-phpunit": "^0.15.1",
+    "roave/security-advisories": "dev-master",
     "slevomat/coding-standard": "^6.4",
-    "symfony/var-dumper": "^5.2"
+    "squizlabs/php_codesniffer": "dev-master",
+    "symfony/var-dumper": "^5.2",
+    "vimeo/psalm": "^4.3"
   },
   "config": {
     "optimize-autoloader": true,
