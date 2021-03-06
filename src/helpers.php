@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-if (!function_exists('value')) {
+if (! function_exists('value')) {
     /**
      * Return the default value of the given value.
      *
@@ -16,7 +16,7 @@ if (!function_exists('value')) {
     }
 }
 
-if (!function_exists('array_get')) {
+if (! function_exists('array_get')) {
     /**
      * Get an item from an array using "dot" notation.
      *
@@ -33,7 +33,7 @@ if (!function_exists('array_get')) {
         }
 
         foreach (explode('.', $key) as $segment) {
-            if (!is_array($array) || !array_key_exists($segment, $array)) {
+            if (! is_array($array) || ! array_key_exists($segment, $array)) {
                 return value($default);
             }
 
@@ -41,5 +41,27 @@ if (!function_exists('array_get')) {
         }
 
         return $array;
+    }
+}
+
+if (! function_exists('env')) {
+    /**
+     * @param string $key
+     * @param mixed $default
+     *
+     * @return string|boolean|null
+     */
+    function env(string $key, $default = null): bool | string | null
+    {
+        if (! array_key_exists($key, $_ENV)) {
+            return $default;
+        }
+
+        return match ($_ENV[$key]) {
+            'true' => true,
+            'false' => false,
+            '', 'null' => null,
+        default => $_ENV[$key],
+        };
     }
 }

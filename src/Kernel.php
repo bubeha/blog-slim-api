@@ -4,81 +4,46 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Services\Config\Contract;
-use App\Services\Config\Repository;
-use DI\Bridge\Slim\Bridge;
-use DI\Container;
-use DI\ContainerBuilder;
-use Laminas\ConfigAggregator\ConfigAggregator;
-use Laminas\ConfigAggregator\PhpFileProvider;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
 use Slim\App;
-use Slim\Psr7\Response;
-
+use Slim\Factory\AppFactory;
 /**
  * Class Kernel.
  */
 class Kernel
 {
-    private ContainerInterface $container;
+    private App $application;
 
     /**
-     * @throws \Exception
+     * Kernel constructor.
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->application = AppFactory::createFromContainer($container);
+    }
+
+    /**
+     * Configure application
      *
      * @return void
      */
     public function handle(): void
     {
-        $this->container = $this->getContainer();
+        $this->configureRoutes($this->application);
 
-        $app = Bridge::create($this->container);
-
-        $this->fillContainer($this->container);
-        $this->applyRoutes($app);
-
-        $app->run();
+        $this->application->run();
     }
 
     /**
-     * @throws \Exception
+     * Add routes to project
      *
-     * @return Container
-     */
-    private function getContainer(): Container
-    {
-        $builder = new ContainerBuilder();
-        $builder->useAutowiring(true);
-        $builder->useAnnotations(false);
-
-        return $builder->build();
-    }
-
-    /**
      * @param App $app
      *
      * @return void
      */
-    private function applyRoutes(App $app): void
+    private function configureRoutes(App $app): void
     {
-        require_once dirname(__DIR__) . '/config/router.php';
-    }
-
-    /**
-     * @param Container $container
-     *
-     * @return void
-     */
-    private function fillContainer(Container $container): void
-    {
-        $container->set(ContainerInterface::class, $container);
-        $container->set(Contract::class, function () {
-            $aggregator = new ConfigAggregator([
-                new PhpFileProvider(dirname(__DIR__) . '/config/packages/*.php'),
-            ]);
-
-            return new Repository($aggregator->getMergedConfig());
-        });
-        $container->set(ResponseInterface::class, new Response());
+        (require dirname(__DIR__) . '/config/router.php')($app);
     }
 }

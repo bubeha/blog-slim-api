@@ -2,5 +2,9 @@
 
 declare(strict_types=1);
 
-/** @var \Slim\App $app */
-$app->get('/', [\App\Controller\HomeController::class, 'home']);
+use App\Http\Actions\Greeting;
+use Slim\Interfaces\RouteCollectorProxyInterface;
+
+return static function (RouteCollectorProxyInterface $app) {
+    $app->get('/', Greeting::class);
+};

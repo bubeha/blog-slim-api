@@ -33,7 +33,7 @@ services:
     env_file: .env
     user: "$_UID:$_GID"
     network_mode: "host"
-    image: "composer:1.9.3"
+    image: "composer:2.0.11"
     working_dir: "/application"
     environment:
       COMPOSER_HOME: "$COMPOSER_HOME"
