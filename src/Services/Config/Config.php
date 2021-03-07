@@ -14,7 +14,7 @@ class Config implements IConfig
     /**
      * Config constructor.
      *
-     * @param array $data
+     * @param array<string, mixed> $data
      */
     public function __construct(array $data = [])
     {
@@ -31,5 +31,13 @@ class Config implements IConfig
         }
 
         return $default;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function all(): array
+    {
+        return $this->data;
     }
 }

@@ -16,4 +16,9 @@ interface IConfig
      * @return mixed
      */
     public function get(string $key, $default = null): mixed;
+
+    /**
+     * @return array
+     */
+    public function all(): array;
 }
