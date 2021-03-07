@@ -79,7 +79,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return string[]
+     * @return array<string, string>
      */
     private function getTestedValue(): array
     {
