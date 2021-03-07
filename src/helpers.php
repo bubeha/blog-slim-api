@@ -20,13 +20,13 @@ if (! function_exists('array_get')) {
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param array $array
+     * @param array<string,mixed> $array
      * @param string $key
      * @param mixed $default
      *
      * @return mixed
      */
-    function array_get(array $array, string $key, $default = null)
+    function array_get(array $array, string $key, $default = null): mixed
     {
         if (isset($array[$key])) {
             return $array[$key];
@@ -37,6 +37,7 @@ if (! function_exists('array_get')) {
                 return value($default);
             }
 
+            /** @var mixed $array */
             $array = $array[$segment];
         }
 
@@ -49,9 +50,9 @@ if (! function_exists('env')) {
      * @param string $key
      * @param mixed $default
      *
-     * @return string|boolean|null
+     * @return mixed
      */
-    function env(string $key, $default = null): bool | string | null
+    function env(string $key, $default = null): mixed
     {
         if (! array_key_exists($key, $_ENV)) {
             return $default;
@@ -61,7 +62,7 @@ if (! function_exists('env')) {
             'true' => true,
             'false' => false,
             '', 'null' => null,
-        default => $_ENV[$key],
+            default => $_ENV[$key],
         };
     }
 }

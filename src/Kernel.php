@@ -7,6 +7,7 @@ namespace App;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
+
 /**
  * Class Kernel.
  */
