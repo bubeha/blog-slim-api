@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Config;
 
 use App\Services\Config\Config;
-use App\Services\Config\IConfig;
+use App\Services\Config\ConfigInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -33,7 +33,7 @@ final class ConfigTest extends TestCase
      *
      * @return Config
      */
-    private function getConfig(array $default = []): IConfig
+    private function getConfig(array $default = []): ConfigInterface
     {
         return new Config($default);
     }

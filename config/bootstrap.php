@@ -12,6 +12,6 @@ if (! class_exists(Dotenv::class)) {
 }
 
 (new Dotenv())
-    ->load(dirname(__DIR__) . '/.env');
+    ->load(appDirectory() . '/.env');
 
-return Factory::build(require dirname(__DIR__) . '/config/container.php');
+return Factory::build(require appDirectory() . '/config/container.php');

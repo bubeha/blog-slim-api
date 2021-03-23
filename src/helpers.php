@@ -66,3 +66,13 @@ if (! function_exists('env')) {
         };
     }
 }
+
+if (! function_exists('appDirectory')) {
+    /**
+     * @return string
+     */
+    function appDirectory(): string
+    {
+        return dirname(__DIR__);
+    }
+}

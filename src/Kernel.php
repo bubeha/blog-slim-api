@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Services\Config\Config;
+use App\Services\Config\ConfigInterface;
+use App\Services\Config\Factory;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -31,9 +34,28 @@ class Kernel
      */
     public function handle(): void
     {
+        /** @var ContainerInterface $container */
+        $container = $this->application->getContainer();
+
+        /** @var Config $config */
+        $config = $container->get(ConfigInterface::class);
+
+        $this->loadConfiguration($config);
         $this->configureRoutes($this->application);
 
         $this->application->run();
+    }
+
+    /**
+     * @param Config $config
+     *
+     * @return void
+     */
+    private function loadConfiguration(Config $config): void
+    {
+        $parameters = (new Factory())->make(appDirectory() . '/config/packages');
+
+        $config->setMany($parameters);
     }
 
     /**
@@ -45,6 +67,6 @@ class Kernel
      */
     private function configureRoutes(App $app): void
     {
-        (require dirname(__DIR__) . '/config/router.php')($app);
+        (require appDirectory() . '/config/router.php')($app);
     }
 }

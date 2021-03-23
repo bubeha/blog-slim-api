@@ -7,7 +7,7 @@ namespace App\Services\Config;
 /**
  * Interface IConfig
  */
-interface IConfig
+interface ConfigInterface
 {
     /**
      * @param string $key

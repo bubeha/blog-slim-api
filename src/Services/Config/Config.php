@@ -7,7 +7,7 @@ namespace App\Services\Config;
 /**
  * Class Config
  */
-class Config implements IConfig
+class Config implements ConfigInterface
 {
     protected array $data = [];
 
@@ -39,5 +39,26 @@ class Config implements IConfig
     public function all(): array
     {
         return $this->data;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function set(string $key, $value = null): void
+    {
+        $this->data[$key] = $value;
+    }
+
+    /**
+     * @param array<string|mixed> $values
+     *
+     * @return void
+     */
+    public function setMany(array $values): void
+    {
+        $this->data += $values;
     }
 }
