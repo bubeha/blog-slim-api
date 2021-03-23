@@ -53,7 +53,7 @@ class Kernel
      */
     private function loadConfiguration(Config $config): void
     {
-        $parameters = (new Factory())->make(appDirectory() . '/config/packages');
+        $parameters = (new Factory())->make(APP_ROOT . '/config/packages');
 
         $config->setMany($parameters);
     }
@@ -67,6 +67,6 @@ class Kernel
      */
     private function configureRoutes(App $app): void
     {
-        (require appDirectory() . '/config/router.php')($app);
+        (require APP_ROOT . '/config/router.php')($app);
     }
 }
