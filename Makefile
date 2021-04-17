@@ -50,6 +50,7 @@ psalm:
 lint:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer run phplint \
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer run php-cs-fixer fix -- --dry-run --diff
 
 cs-fix:
