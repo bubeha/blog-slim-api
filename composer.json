@@ -20,10 +20,15 @@
     "phpunit/phpunit": "^9.5",
     "psalm/plugin-phpunit": "^0.15.1",
     "roave/security-advisories": "dev-master",
-    "slevomat/coding-standard": "^6.4",
-    "squizlabs/php_codesniffer": "dev-master",
     "symfony/var-dumper": "^5.2",
     "vimeo/psalm": "^4.3"
+  },
+  "replace": {
+    "symfony/polyfill-ctype": "*",
+    "ralouphie/getallheaders": "*",
+    "symfony/polyfill-mbstring": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php80": "*"
   },
   "config": {
     "optimize-autoloader": true,
