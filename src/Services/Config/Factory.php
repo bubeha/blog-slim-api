@@ -6,6 +6,7 @@ namespace App\Services\Config;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Class Loader.
@@ -32,7 +33,7 @@ final class Factory
             /**
              * @psalm-suppress UnresolvableInclude
              *
-             * @var mixed[] $value
+             * @var array $value
              */
             $value = require $realPath;
 
@@ -51,8 +52,8 @@ final class Factory
     {
         $directory = $file->getPath();
 
-        if ($nested = trim(str_replace($configPath, '', $directory), \DIRECTORY_SEPARATOR)) {
-            $nested = str_replace(\DIRECTORY_SEPARATOR, '.', $nested) . '.';
+        if ($nested = trim(str_replace($configPath, '', $directory), DIRECTORY_SEPARATOR)) {
+            $nested = str_replace(DIRECTORY_SEPARATOR, '.', $nested) . '.';
         }
 
         return $nested;
