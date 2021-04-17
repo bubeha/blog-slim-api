@@ -9,26 +9,19 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
-        <exclude>
-            <directory>bin</directory>
-            <directory>build</directory>
-            <directory>docs</directory>
-            <directory>public</directory>
-            <directory>resources</directory>
-            <directory>templates</directory>
-            <directory>tmp</directory>
-            <directory>vendor</directory>
-        </exclude>
     </coverage>
     <testsuites>
-        <testsuite name="Tests">
-            <directory suffix="Test.php">tests/Feature</directory>
+        <testsuite name="unit">
             <directory suffix="Test.php">tests/Unit</directory>
+        </testsuite>
+        <testsuite name="functional">
+            <directory suffix="Test.php">tests/Functional</directory>
         </testsuite>
     </testsuites>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="PHPUNIT_TEST_SUITE" value="1"/>
+        <env name="APP_DEBUG" value="1" force="true"/>
         <!-- Don't cache result -->
         <const name="PHPUNIT_TESTSUITE_RESULTCACHE" value="0"/>
     </php>

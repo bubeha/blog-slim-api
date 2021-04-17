@@ -53,6 +53,8 @@
   },
   "scripts": {
     "php-cs-fixer": "php-cs-fixer --config=./.php_cs --allow-risky=yes",
-    "psalm": "vendor/bin/psalm --config=psalm.xml"
+    "psalm": "vendor/bin/psalm --config=psalm.xml",
+    "test": "phpunit --colors=always",
+    "test-coverage": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-html var/test/coverage"
   }
 }

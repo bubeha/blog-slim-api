@@ -22,8 +22,30 @@ update-deps:
 		&& export _GID="${GID}" \
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer update
 
+test-unit:
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer test -- --testsuite=unit
+
+test-unit-coverage:
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer test-coverage -- --testsuite=unit
+
+test-functional:
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer test -- --testsuite=functional
+
+test-functional-coverage:
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer test-coverage -- --testsuite=functional
+
 psalm:
-	docker-compose exec php-fpm ./vendor/bin/psalm --show-info=true
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer run psalm
 
 lint:
 	export _UID="${UID}" \
