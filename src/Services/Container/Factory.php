@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace App\Services\Container;
 
 use DI\ContainerBuilder;
+use Exception;
 use Psr\Container\ContainerInterface;
 
 /**
- * Class Builder
- * @package App\Services\Container
+ * Class Builder.
  */
-class Factory
+final class Factory
 {
     /**
-     * @param array $definitions
-     *
-     * @return ContainerInterface
-     * @throws \Exception
+     * @throws Exception
      */
     public static function build(array $definitions = []): ContainerInterface
     {

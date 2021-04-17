@@ -9,25 +9,20 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class Greeting
+ * Class Greeting.
  */
-class Greeting
+final class Greeting
 {
-    /** @var LoggerInterface */
     private LoggerInterface $logger;
 
     /**
      * Greeting constructor.
-     * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
-    /**
-     * @return ResponseInterface
-     */
     public function __invoke(): ResponseInterface
     {
         $this->logger->info('hello vlad');

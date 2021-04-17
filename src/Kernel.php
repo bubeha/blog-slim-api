@@ -14,13 +14,12 @@ use Slim\Factory\AppFactory;
 /**
  * Class Kernel.
  */
-class Kernel
+final class Kernel
 {
     private App $application;
 
     /**
      * Kernel constructor.
-     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -28,9 +27,7 @@ class Kernel
     }
 
     /**
-     * Configure application
-     *
-     * @return void
+     * Configure application.
      */
     public function handle(): void
     {
@@ -46,27 +43,19 @@ class Kernel
         $this->application->run();
     }
 
-    /**
-     * @param Config $config
-     *
-     * @return void
-     */
     private function loadConfiguration(Config $config): void
     {
-        $parameters = (new Factory())->make(APP_ROOT . '/config/packages');
+        $parameters = (new Factory())->make(\dirname(__DIR__) . '/config/packages');
 
         $config->setMany($parameters);
     }
 
     /**
-     * Add routes to project
-     *
-     * @param App $app
-     *
-     * @return void
+     * Add routes to project.
      */
     private function configureRoutes(App $app): void
     {
-        (require APP_ROOT . '/config/router.php')($app);
+        /** @psalm-suppress UnresolvableInclude */
+        (require \dirname(__DIR__) . '/config/router.php')($app);
     }
 }

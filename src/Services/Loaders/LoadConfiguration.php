@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Services\Loaders;
 
 /**
- * Class LoadConfiguration
- * @package App\Services\Loaders
+ * Class LoadConfiguration.
  */
-class LoadConfiguration
+final class LoadConfiguration
 {
     /**
      * @return array<string,mixed>
@@ -18,9 +17,7 @@ class LoadConfiguration
         return [];
     }
 
-
-    protected function getConfigDirectory()
+    private function getConfigDirectory(): void
     {
-
     }
 }

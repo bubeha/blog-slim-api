@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Services\Config;
 
 /**
- * Class Config
+ * Class Config.
  */
-class Config implements ConfigInterface
+final class Config implements ConfigInterface
 {
-    protected array $data = [];
+    private array $data = [];
 
     /**
      * Config constructor.
@@ -21,31 +21,22 @@ class Config implements ConfigInterface
         $this->data = $data;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function get(string $key, $default = null): mixed
     {
-        if (array_key_exists($key, $this->data)) {
+        if (\array_key_exists($key, $this->data)) {
             return $this->data[$key];
         }
 
         return $default;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function all(): array
     {
         return $this->data;
     }
 
     /**
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return void
+     * @param mixed|null $value
      */
     public function set(string $key, $value = null): void
     {
@@ -53,9 +44,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param array<string|mixed> $values
-     *
-     * @return void
+     * @param array<mixed|string> $values
      */
     public function setMany(array $values): void
     {

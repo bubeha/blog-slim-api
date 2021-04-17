@@ -9,9 +9,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 return [
-    ConfigInterface::class => static function () {
-        return new Config();
-    },
+    ConfigInterface::class => static fn () => new Config(),
     LoggerInterface::class => static function (ContainerInterface $container) {
         /** @var array<string,mixed> $parameters */
         $parameters = ($container->get(ConfigInterface::class))->get('logger', []);

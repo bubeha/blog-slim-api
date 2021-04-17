@@ -16,6 +16,7 @@
     "symfony/finder": "^5.2"
   },
   "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.18",
     "lctrs/psalm-psr-container-plugin": "^1.1",
     "phpunit/phpunit": "^9.5",
     "psalm/plugin-phpunit": "^0.15.1",
@@ -49,5 +50,9 @@
     "psr-4": {
       "Tests\\": "tests/"
     }
+  },
+  "scripts": {
+    "php-cs-fixer": "php-cs-fixer --config=./.php_cs --allow-risky=yes",
+    "psalm": "vendor/bin/psalm --config=psalm.xml"
   }
 }

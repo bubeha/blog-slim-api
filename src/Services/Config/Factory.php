@@ -8,15 +8,10 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class Loader
+ * Class Loader.
  */
-class Factory
+final class Factory
 {
-    /**
-     * @param string $directory
-     *
-     * @return array
-     */
     public function make(string $directory): array
     {
         $parameters = [];
@@ -25,7 +20,8 @@ class Factory
         $finder = Finder::create()
             ->files()
             ->name('*.php')
-            ->in($directory);
+            ->in($directory)
+        ;
 
         foreach ($finder as $file) {
             $directory = $this->getNestedDirectory($file, $directory);
@@ -35,6 +31,7 @@ class Factory
 
             /**
              * @psalm-suppress UnresolvableInclude
+             *
              * @var mixed[] $value
              */
             $value = require $realPath;
@@ -49,18 +46,13 @@ class Factory
 
     /**
      * Get the configuration file nesting path.
-     *
-     * @param SplFileInfo $file
-     * @param string $configPath
-     *
-     * @return string
      */
-    protected function getNestedDirectory(SplFileInfo $file, string $configPath): string
+    private function getNestedDirectory(SplFileInfo $file, string $configPath): string
     {
         $directory = $file->getPath();
 
-        if ($nested = trim(str_replace($configPath, '', $directory), DIRECTORY_SEPARATOR)) {
-            $nested = str_replace(DIRECTORY_SEPARATOR, '.', $nested) . '.';
+        if ($nested = trim(str_replace($configPath, '', $directory), \DIRECTORY_SEPARATOR)) {
+            $nested = str_replace(\DIRECTORY_SEPARATOR, '.', $nested) . '.';
         }
 
         return $nested;

@@ -5,20 +5,14 @@ declare(strict_types=1);
 namespace App\Services\Config;
 
 /**
- * Interface IConfig
+ * Interface IConfig.
  */
 interface ConfigInterface
 {
     /**
-     * @param string $key
-     * @param mixed $default
-     *
-     * @return mixed
+     * @param mixed|null $default
      */
     public function get(string $key, $default = null): mixed;
 
-    /**
-     * @return array
-     */
     public function all(): array;
 }

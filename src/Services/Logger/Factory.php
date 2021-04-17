@@ -9,17 +9,14 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class Factory
- * @package App\Services\Logger
+ * Class Factory.
  */
-class Factory
+final class Factory
 {
     private const LOGGER_NAME = 'API';
 
     /**
      * @param array<string,mixed> $parameters
-     *
-     * @return LoggerInterface
      */
     public function make(array $parameters): LoggerInterface
     {
@@ -27,23 +24,18 @@ class Factory
 
         $level = $this->getLevelFromParameters($parameters);
 
-        if (isset($parameters['stderr']) && ! $parameters['stderr']) {
+        if (isset($parameters['stderr']) && !$parameters['stderr']) {
             $this->addStderrHandler($log, $level);
         }
 
-        if (isset($parameters['file']) && is_string($parameters['file'])) {
+        if (isset($parameters['file']) && \is_string($parameters['file'])) {
             $this->addFileHandler($log, $parameters['file'], $level);
         }
 
         return $log;
     }
 
-    /**
-     * @param array $parameters
-     *
-     * @return integer
-     */
-    protected function getLevelFromParameters(array $parameters): int
+    private function getLevelFromParameters(array $parameters): int
     {
         if (isset($parameters['debug'])) {
             return $parameters['debug'] ? Logger::DEBUG : Logger::INFO;
@@ -52,25 +44,12 @@ class Factory
         return Logger::INFO;
     }
 
-    /**
-     * @param Logger $log
-     * @param integer $level
-     *
-     * @return void
-     */
-    protected function addStderrHandler(Logger $log, int $level): void
+    private function addStderrHandler(Logger $log, int $level): void
     {
         $log->pushHandler(new StreamHandler('php://stderr', $level));
     }
 
-    /**
-     * @param Logger $log
-     * @param string $path
-     * @param integer $level
-     *
-     * @return void
-     */
-    protected function addFileHandler(Logger $log, string $path, int $level): void
+    private function addFileHandler(Logger $log, string $path, int $level): void
     {
         $log->pushHandler(new StreamHandler($path, $level));
     }

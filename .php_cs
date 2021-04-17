@@ -1,48 +1,62 @@
 <?php
 
-return PhpCsFixer\Config::create()
-    ->setUsingCache(true)
-    ->setRiskyAllowed(true)
-    ->setCacheFile(__DIR__ . '/var/cache/.php_cs.cache')
-    ->setRules([
-        '@PSR1' => true,
-        '@PSR2' => true,
-        '@Symfony' => true,
-        'psr4' => true,
-        // custom rules
-        'align_multiline_comment' => ['comment_type' => 'phpdocs_only'], // psr-5
-        'phpdoc_to_comment' => false,
-        'no_superfluous_phpdoc_tags' => false,
-        'array_indentation' => true,
-        'array_syntax' => ['syntax' => 'short'],
-        'cast_spaces' => ['space' => 'none'],
-        'concat_space' => ['spacing' => 'one'],
-        'compact_nullable_typehint' => true,
-        'declare_equal_normalize' => ['space' => 'single'],
-        'increment_style' => ['style' => 'post'],
-        'list_syntax' => ['syntax' => 'short'],
-        'no_short_echo_tag' => true,
-        'phpdoc_add_missing_param_annotation' => ['only_untyped' => false],
-        'phpdoc_align' => false,
-        'phpdoc_no_empty_return' => false,
-        'phpdoc_order' => true, // psr-5
-        'phpdoc_no_useless_inheritdoc' => false,
-        'protected_to_private' => false,
-        'yoda_style' => false,
-        'method_argument_space' => ['on_multiline' => 'ensure_fully_multiline'],
-        'ordered_imports' => [
-            'sort_algorithm' => 'alpha',
-            'imports_order' => ['class', 'const', 'function']
-        ],
-        'single_line_throw' => false,
-        'declare_strict_types' => true,
-    ])
-    ->setFinder(PhpCsFixer\Finder::create()
-        ->in(__DIR__ . '/bin')
-        ->in(__DIR__ . '/src')
-        ->in(__DIR__ . '/tests')
-        ->in(__DIR__ . '/config')
-        ->in(__DIR__ . '/public')
-        ->name('*.php')
-        ->ignoreDotFiles(true)
-        ->ignoreVCS(true));
+declare(strict_types=1);
+
+return
+    (new PhpCsFixer\Config())
+        ->setCacheFile(__DIR__ . '/var/cache/.php_cs')
+        ->setFinder(
+            PhpCsFixer\Finder::create()
+                ->in([
+                    __DIR__ . '/bin',
+                    __DIR__ . '/config',
+                    __DIR__ . '/public',
+                    __DIR__ . '/src',
+                    __DIR__ . '/tests',
+                    __DIR__ . '/utils',
+                ])
+                ->append([
+                    __FILE__,
+                ])
+        )
+        ->setRules([
+            '@PSR12' => true,
+            '@PSR12:risky' => true,
+            '@DoctrineAnnotation' => true,
+            '@PHP80Migration' => true,
+            '@PHP80Migration:risky' => true,
+            '@PHPUnit84Migration:risky' => true,
+            '@PhpCsFixer' => true,
+            '@PhpCsFixer:risky' => true,
+
+            'ordered_imports' => ['imports_order' => ['class', 'function', 'const']],
+
+            'concat_space' => ['spacing' => 'one'],
+            'cast_spaces' => ['space' => 'none'],
+            'binary_operator_spaces' => false,
+
+            'phpdoc_to_comment' => false,
+            'phpdoc_separation' => false,
+            'phpdoc_types_order' => ['null_adjustment' => 'always_last'],
+            'phpdoc_align' => false,
+
+            'operator_linebreak' => false,
+
+            'global_namespace_import' => true,
+
+            'blank_line_before_statement' => false,
+            'multiline_whitespace_before_semicolons' => ['strategy' => 'new_line_for_chained_calls'],
+
+            'fopen_flags' => ['b_mode' => true],
+
+            'php_unit_strict' => false,
+            'php_unit_test_class_requires_covers' => false,
+            'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
+
+            'final_class' => true,
+            'final_public_method_for_abstract_class' => true,
+            'self_static_accessor' => true,
+
+            'static_lambda' => true,
+        ])
+    ;

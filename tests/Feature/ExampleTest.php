@@ -8,16 +8,17 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ExampleTest.
+ *
+ * @internal
+ * @coversNothing
  */
-class ExampleTest extends TestCase
+final class ExampleTest extends TestCase
 {
     /**
      * A basic test example.
-     *
-     * @return void
      */
     public function testBasicTest(): void
     {
-        static::assertTrue(true);
+        self::assertTrue(true);
     }
 }

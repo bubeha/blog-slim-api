@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-if (! function_exists('value')) {
+if (!function_exists('value')) {
     /**
      * Return the default value of the given value.
      *
      * @param mixed $value
-     *
-     * @return mixed
      */
     function value($value)
     {
@@ -16,15 +14,12 @@ if (! function_exists('value')) {
     }
 }
 
-if (! function_exists('array_get')) {
+if (!function_exists('array_get')) {
     /**
      * Get an item from an array using "dot" notation.
      *
      * @param array<string,mixed> $array
-     * @param string $key
-     * @param mixed $default
-     *
-     * @return mixed
+     * @param mixed|null          $default
      */
     function array_get(array $array, string $key, $default = null): mixed
     {
@@ -33,7 +28,7 @@ if (! function_exists('array_get')) {
         }
 
         foreach (explode('.', $key) as $segment) {
-            if (! is_array($array) || ! array_key_exists($segment, $array)) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
                 return value($default);
             }
 
@@ -45,16 +40,10 @@ if (! function_exists('array_get')) {
     }
 }
 
-if (! function_exists('env')) {
-    /**
-     * @param string $key
-     * @param mixed $default
-     *
-     * @return mixed
-     */
+if (!function_exists('env')) {
     function env(string $key, $default = null): mixed
     {
-        if (! array_key_exists($key, $_ENV)) {
+        if (!array_key_exists($key, $_ENV)) {
             return $default;
         }
 

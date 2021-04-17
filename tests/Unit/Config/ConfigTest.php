@@ -9,22 +9,52 @@ use App\Services\Config\ConfigInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ConfigTest
- * @package Tests\Unit\Config
+ * Class ConfigTest.
+ *
+ * @internal
+ * @coversNothing
  */
 final class ConfigTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testDefaultValue(): void
     {
         $config = $this->getConfig();
         $defaultValue = 'value';
 
-        self::assertEquals(
+        self::assertSame(
             $config->get('key', $defaultValue),
             $defaultValue,
+        );
+    }
+
+    public function testIncorrectDefaultValue(): void
+    {
+        $config = $this->getConfig();
+
+        self::assertNotSame(
+            'incorrect',
+            $config->get('key', 'correct')
+        );
+    }
+
+    public function testConfigValue(): void
+    {
+        $data = $this->getTestedValue();
+
+        $config = $this->getConfig($data);
+
+        self::assertSame('value', $config->get('key'));
+    }
+
+    public function testAllConfig(): void
+    {
+        $data = $this->getTestedValue();
+
+        $config = $this->getConfig($data);
+
+        self::assertSame(
+            $data,
+            $config->all()
         );
     }
 
@@ -36,46 +66,6 @@ final class ConfigTest extends TestCase
     private function getConfig(array $default = []): ConfigInterface
     {
         return new Config($default);
-    }
-
-    /**
-     * @return void
-     */
-    public function testIncorrectDefaultValue(): void
-    {
-        $config = $this->getConfig();
-
-        self::assertNotEquals(
-            'incorrect',
-            $config->get('key', 'correct')
-        );
-    }
-
-    /**
-     * @return void
-     */
-    public function testConfigValue(): void
-    {
-        $data = $this->getTestedValue();
-
-        $config = $this->getConfig($data);
-
-        self::assertEquals('value', $config->get('key'));
-    }
-
-    /**
-     * @return void
-     */
-    public function testAllConfig(): void
-    {
-        $data = $this->getTestedValue();
-
-        $config = $this->getConfig($data);
-
-        self::assertEquals(
-            $data,
-            $config->all()
-        );
     }
 
     /**
