@@ -9,7 +9,7 @@ namespace App\Services\Config;
  */
 final class Config implements ConfigInterface
 {
-    private array $data = [];
+    private array $data;
 
     /**
      * Config constructor.
