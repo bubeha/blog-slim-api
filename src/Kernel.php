@@ -6,6 +6,7 @@ namespace App;
 
 use App\Services\Loaders\ConfigLoader;
 use App\Services\Loaders\LoaderInterface;
+use App\Services\Loaders\MiddlewareLoader;
 use App\Services\Loaders\RouteLoader;
 use Exception;
 use Psr\Container\ContainerInterface;
@@ -41,6 +42,7 @@ final class Kernel
     {
         return [
             new ConfigLoader(),
+            new MiddlewareLoader(),
             new RouteLoader(),
         ];
     }
