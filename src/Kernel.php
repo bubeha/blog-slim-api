@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Services\Config\Config;
-use App\Services\Config\ConfigInterface;
-use App\Services\Config\Factory;
+use App\Services\Loaders\ConfigLoader;
+use App\Services\Loaders\LoaderInterface;
+use App\Services\Loaders\RouteLoader;
+use Exception;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -18,44 +19,39 @@ final class Kernel
 {
     private App $application;
 
-    /**
-     * Kernel constructor.
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->application = AppFactory::createFromContainer($container);
     }
 
     /**
-     * Configure application.
+     * @throws Exception
      */
     public function handle(): void
     {
-        /** @var ContainerInterface $container */
-        $container = $this->application->getContainer();
-
-        /** @var Config $config */
-        $config = $container->get(ConfigInterface::class);
-
-        $this->loadConfiguration($config);
-        $this->configureRoutes($this->application);
+        $this->load();
 
         $this->application->run();
     }
 
-    private function loadConfiguration(Config $config): void
+    /**
+     * @return array<LoaderInterface>
+     */
+    public function getLoaders(): array
     {
-        $parameters = (new Factory())->make(\dirname(__DIR__) . '/config/packages');
-
-        $config->setMany($parameters);
+        return [
+            new ConfigLoader(),
+            new RouteLoader(),
+        ];
     }
 
     /**
-     * Add routes to project.
+     * @throws Exception
      */
-    private function configureRoutes(App $app): void
+    private function load(): void
     {
-        /** @psalm-suppress UnresolvableInclude */
-        (require \dirname(__DIR__) . '/config/router.php')($app);
+        foreach ($this->getLoaders() as $loader) {
+            $loader->load($this->application);
+        }
     }
 }

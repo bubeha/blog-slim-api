@@ -35,19 +35,17 @@ final class Config implements ConfigInterface
         return $this->data;
     }
 
-    /**
-     * @param mixed|null $value
-     */
-    public function set(string $key, $value = null): void
+    public function set(string $key, mixed $value = null): self
     {
         $this->data[$key] = $value;
+
+        return $this;
     }
 
-    /**
-     * @param array<mixed|string> $values
-     */
-    public function setMany(array $values): void
+    public function setMany(array $values): self
     {
         $this->data += $values;
+
+        return $this;
     }
 }

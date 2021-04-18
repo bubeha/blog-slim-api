@@ -6,6 +6,6 @@ use App\Kernel;
 
 $container = require dirname(__DIR__) . '/config/bootstrap.php';
 
-$kernel = new Kernel($container);
-
-$kernel->handle();
+(new Kernel($container))
+    ->handle()
+;
