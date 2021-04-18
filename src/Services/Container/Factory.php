@@ -16,7 +16,7 @@ final class Factory
     /**
      * @throws Exception
      */
-    public static function build(array $definitions = []): ContainerInterface
+    public static function make(array $definitions = []): ContainerInterface
     {
         $builder = new ContainerBuilder();
 

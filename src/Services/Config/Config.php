@@ -12,8 +12,6 @@ final class Config implements ConfigInterface
     private array $data;
 
     /**
-     * Config constructor.
-     *
      * @param array<string, mixed> $data
      */
     public function __construct(array $data = [])
