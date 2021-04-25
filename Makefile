@@ -1,10 +1,15 @@
 UID := $(shell id -u)
 GID := $(shell id -g)
 
-start:
+build:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer \
+		&& docker-compose build
+
+start: build
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer install \
 		&& time docker-compose up -d --build --remove-orphans nginx
 
 stop:
@@ -15,45 +20,45 @@ stop:
 down:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose down
+		&& time docker-compose down --remove-orphans
 
 update-deps:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer update
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer update
 
 test-unit:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer test -- --testsuite=unit
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer test -- --testsuite=unit
 
 test-unit-coverage:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer test-coverage -- --testsuite=unit
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer test-coverage -- --testsuite=unit
 
 test-functional:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer test -- --testsuite=functional
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer test -- --testsuite=functional
 
 test-functional-coverage:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer test-coverage -- --testsuite=functional
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer test-coverage -- --testsuite=functional
 
 psalm:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer run psalm
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer run psalm
 
 lint:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer run phplint \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer run php-cs-fixer fix -- --dry-run --diff
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer run phplint \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer run php-cs-fixer fix -- --dry-run --diff
 
 cs-fix:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" composer run php-cs-fixer fix
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer run php-cs-fixer fix
