@@ -18,6 +18,23 @@ services:
     environment:
       PHP_IDE_CONFIG: "serverName=docker"
 
+  php-cli:
+    build:
+      context: ./.docker/php-cli
+      args:
+        PHP_VERSION: 8
+    env_file: .env
+    user: "$_UID:$_GID"
+    volumes:
+      - "$COMPOSER_HOME:$COMPOSER_HOME"
+      - "$COMPOSER_CACHE_DIR:$COMPOSER_CACHE_DIR"
+      - "./:/application"
+    working_dir: "/application"
+    links:
+      - postgres
+    depends_on:
+      - postgres
+
   nginx:
     image: "nginx:1.19.3-alpine"
     env_file: .env
@@ -28,21 +45,6 @@ services:
       - "./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
     depends_on:
       - "php-fpm"
-
-  composer:
-    env_file: .env
-    user: "$_UID:$_GID"
-    network_mode: "host"
-    image: "composer:2.0.11"
-    working_dir: "/application"
-    environment:
-      COMPOSER_HOME: "$COMPOSER_HOME"
-      COMPOSER_CACHE_DIR: "$COMPOSER_CACHE_DIR"
-    volumes:
-      - "$COMPOSER_HOME:$COMPOSER_HOME"
-      - "$COMPOSER_CACHE_DIR:$COMPOSER_CACHE_DIR"
-      - "./:/application"
-    command: "composer install"
 
   postgres:
     image: "postgres:12-alpine"

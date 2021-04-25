@@ -10,4 +10,4 @@ RUN apk update && apk add --no-cache $PHPIZE_DEPS \
 
 COPY ./etc/php.ini /usr/local/etc/php/conf.d/php.ini
 
-CMD ["php-fpm"]
+WORKDIR /application
