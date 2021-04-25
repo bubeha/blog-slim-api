@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * Class ConfigTest.
  *
  * @internal
- * @coversNothing
+ * @covers \App\Services\Config\Config
  */
 final class ConfigTest extends TestCase
 {

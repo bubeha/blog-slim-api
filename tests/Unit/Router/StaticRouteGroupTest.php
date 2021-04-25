@@ -10,7 +10,7 @@ use Slim\Routing\RouteCollectorProxy;
 
 /**
  * @internal
- * @coversNothing
+ * @covers \App\Services\Router\StaticRouterGroup
  */
 final class StaticRouteGroupTest extends TestCase
 {
