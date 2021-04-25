@@ -4,12 +4,12 @@ GID := $(shell id -g)
 build:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose build
+		&& time docker-compose build \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer install
 
 start:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer install \
 		&& time docker-compose up -d --build --remove-orphans nginx
 
 stop:
