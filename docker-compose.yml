@@ -6,7 +6,6 @@ services:
       args:
         PHP_VERSION: 8
         XDEBUG_VERSION: 3.0.1
-    env_file: .env
     user: "$_UID:$_GID"
     volumes:
       - "./:/application"
@@ -26,8 +25,6 @@ services:
         XDEBUG_VERSION: 3.0.1
     user: "$_UID:$_GID"
     volumes:
-      - "$COMPOSER_HOME:$COMPOSER_HOME"
-      - "$COMPOSER_CACHE_DIR:$COMPOSER_CACHE_DIR"
       - "./:/application"
     working_dir: "/application"
     links:
