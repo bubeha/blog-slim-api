@@ -22,6 +22,11 @@ down:
 		&& export _GID="${GID}" \
 		&& time docker-compose down --remove-orphans
 
+down-clear:
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose down -v --remove-orphans
+
 update-deps:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
