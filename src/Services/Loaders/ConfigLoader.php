@@ -2,17 +2,28 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Config;
+namespace App\Services\Loaders;
 
+use App\Services\Config\ConfigInterface;
+use Psr\Container\ContainerInterface;
+use Slim\App;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * Class Loader.
- */
-final class Factory
+final class ConfigLoader implements LoaderInterface
 {
-    public function make(string $directory): array
+    public function load(App $application): void
+    {
+        /** @var ContainerInterface $container */
+        $container = $application->getContainer();
+        $config = $container->get(ConfigInterface::class);
+
+        $config->setMany(
+            $this->getParameters(\dirname(__DIR__) . '/../../config/packages/')
+        );
+    }
+
+    private function getParameters(string $directory): array
     {
         $parameters = [];
 
@@ -32,11 +43,11 @@ final class Factory
             /**
              * @psalm-suppress UnresolvableInclude
              *
-             * @var mixed[] $value
+             * @var array $value
              */
             $value = require $realPath;
 
-            $parameters[$directory . basename($realPath, '.php')] = $value;
+            $parameters[basename($realPath, '.php')] = $value;
         }
 
         ksort($parameters, SORT_NATURAL);

@@ -15,4 +15,8 @@ interface ConfigInterface
     public function get(string $key, $default = null): mixed;
 
     public function all(): array;
+
+    public function set(string $key, mixed $value): self;
+
+    public function setMany(array $values): self;
 }

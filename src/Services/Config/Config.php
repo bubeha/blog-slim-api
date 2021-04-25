@@ -9,11 +9,9 @@ namespace App\Services\Config;
  */
 final class Config implements ConfigInterface
 {
-    private array $data = [];
+    private array $data;
 
     /**
-     * Config constructor.
-     *
      * @param array<string, mixed> $data
      */
     public function __construct(array $data = [])
@@ -35,19 +33,17 @@ final class Config implements ConfigInterface
         return $this->data;
     }
 
-    /**
-     * @param mixed|null $value
-     */
-    public function set(string $key, $value = null): void
+    public function set(string $key, mixed $value = null): self
     {
         $this->data[$key] = $value;
+
+        return $this;
     }
 
-    /**
-     * @param array<mixed|string> $values
-     */
-    public function setMany(array $values): void
+    public function setMany(array $values): self
     {
         $this->data += $values;
+
+        return $this;
     }
 }
