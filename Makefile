@@ -37,6 +37,8 @@ test-unit-coverage:
 		&& export _GID="${GID}" \
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer test-coverage -- --testsuite=unit
 
+test: test-unit test-functional
+
 test-functional:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \

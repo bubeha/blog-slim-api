@@ -1,19 +1,29 @@
 pipeline {
     agent any
+
+    options {
+        timestamps()
+    }
+
     stages {
-        stage("One") {
+        stage("Init") {
             steps {
-                sh "sleep 1"
+                sh "make build"
             }
         }
-        stage("Two") {
+        stage("Lint") {
             steps {
-                sh "sleep 1"
+                sh "make lint"
             }
         }
-        stage("Three") {
+        stage("Test") {
             steps {
-                sh "sleep 1"
+                sh "make test"
+            }
+        }
+        stage("Down") {
+            steps {
+                sh "make down"
             }
         }
     }
