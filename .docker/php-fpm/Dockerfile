@@ -4,9 +4,12 @@ FROM php:${PHP_VERSION}-fpm-alpine
 
 ARG XDEBUG_VERSION
 
-RUN apk update && apk add --no-cache $PHPIZE_DEPS \
-    && pecl install xdebug-$XDEBUG_VERSION \
-    && docker-php-ext-enable xdebug
+RUN apk add --no-cache postgresql-dev git \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && git clone --branch ${XDEBUG_VERSION} --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \
+    && docker-php-ext-configure xdebug --enable-xdebug-dev \
+    && docker-php-ext-install pdo_pgsql xdebug \
+    && apk del git
 
 COPY ./etc/php.ini /usr/local/etc/php/conf.d/php.ini
 

@@ -23,6 +23,7 @@ services:
       context: ./.docker/php-cli
       args:
         PHP_VERSION: 8
+        XDEBUG_VERSION: 3.0.1
     env_file: .env
     user: "$_UID:$_GID"
     volumes:
