@@ -4,12 +4,12 @@ GID := $(shell id -g)
 build:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose build
+		&& time docker-compose build \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer install
 
 start:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer install \
 		&& time docker-compose up -d --build --remove-orphans nginx
 
 stop:
@@ -21,6 +21,11 @@ down:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
 		&& time docker-compose down --remove-orphans
+
+down-clear:
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose down -v --remove-orphans
 
 update-deps:
 	export _UID="${UID}" \
@@ -36,6 +41,8 @@ test-unit-coverage:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer test-coverage -- --testsuite=unit
+
+test: test-unit test-functional
 
 test-functional:
 	export _UID="${UID}" \

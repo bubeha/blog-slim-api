@@ -7,13 +7,11 @@ use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-if (!class_exists(Dotenv::class)) {
-    throw new RuntimeException('"symfony/dotenv" required package');
+if (class_exists(Dotenv::class)) {
+    (new Dotenv())
+        ->load(dirname(__DIR__) . '/.env')
+    ;
 }
-
-(new Dotenv())
-    ->load(dirname(__DIR__) . '/.env')
-;
 
 return Factory::make(
     require dirname(__DIR__) . '/config/container.php'

@@ -8,5 +8,4 @@ use PHPUnit\Framework\TestCase;
 
 abstract class WebTestCase extends TestCase
 {
-    
 }
