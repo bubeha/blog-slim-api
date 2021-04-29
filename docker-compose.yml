@@ -6,6 +6,20 @@ services:
       context: ./gateway/docker/development/nginx
     ports:
       - "8080:8080"
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: frontend/docker/development/nginx
+
+  nodejs:
+    build:
+      context: frontend/docker/development/nodejs
+    user: "$_UID:$_GID"
+    volumes:
+      - ./frontend:/application
+      - ~/.yarnrc:/.yarnrc
+    command: sh -c "yarn start"
 
   php-fpm:
     build:
@@ -32,6 +46,8 @@ services:
     user: "$_UID:$_GID"
     volumes:
       - "./api:/application"
+      - "~/.config/composer:/.config/composer"
+      - "~/.cache/composer:/.cache/composer"
     links:
       - postgres
     depends_on:
