@@ -8,10 +8,12 @@ build:
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer install \
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" nodejs yarn install
 
-start: build
+init: build start
+
+start:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose up -d --build --remove-orphans
+		&& time docker-compose up -d --remove-orphans
 
 stop:
 	export _UID="${UID}" \

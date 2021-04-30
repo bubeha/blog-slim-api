@@ -1,13 +1,6 @@
 version: "3.7"
 
 services:
-  gateway:
-    build:
-      context: ./gateway/docker/development/nginx
-    ports:
-      - "8080:8080"
-      - "3000:3000"
-
   frontend:
     build:
       context: frontend/docker/development/nginx
@@ -20,6 +13,8 @@ services:
       - ./frontend:/application
       - ~/.yarnrc:/.yarnrc
     command: sh -c "yarn start"
+    ports:
+    - "3000:3000"
 
   php-fpm:
     build:
@@ -58,6 +53,8 @@ services:
       context: ./api/.docker/nginx
     volumes:
       - "./api:/application"
+    ports:
+      - "8080:80"
 
   postgres:
     image: "postgres:12-alpine"
