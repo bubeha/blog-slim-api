@@ -13,4 +13,6 @@ RUN apk add --no-cache postgresql-dev git \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --quiet
 
+COPY ./common/php/conf.d /usr/local/etc/php/conf.d
+
 WORKDIR /application

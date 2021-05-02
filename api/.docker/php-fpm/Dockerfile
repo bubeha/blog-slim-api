@@ -11,6 +11,6 @@ RUN apk add --no-cache postgresql-dev git \
     && docker-php-ext-install pdo_pgsql xdebug \
     && apk del git
 
-COPY ./etc/php.ini /usr/local/etc/php/conf.d/php.ini
+COPY ./common/php/conf.d /usr/local/etc/php/conf.d
 
 WORKDIR /application

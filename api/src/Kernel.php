@@ -11,7 +11,6 @@ use App\Services\Loaders\RouteLoader;
 use Exception;
 use Psr\Container\ContainerInterface;
 use Slim\App;
-use Slim\Factory\AppFactory;
 
 /**
  * Class Kernel.
@@ -22,7 +21,7 @@ final class Kernel
 
     public function __construct(ContainerInterface $container)
     {
-        $this->application = AppFactory::createFromContainer($container);
+        $this->application = $container->get(App::class);
     }
 
     /**
@@ -52,8 +51,11 @@ final class Kernel
      */
     private function load(): void
     {
+        /** @var ContainerInterface $container */
+        $container = $this->application->getContainer();
+
         foreach ($this->getLoaders() as $loader) {
-            $loader->load($this->application);
+            $loader->load($container);
         }
     }
 }
