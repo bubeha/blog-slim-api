@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 return [
     'dev_mode' => true,
-    'cache_dir' => dirname(__DIR__) . '/var/doctrine',
-    'proxy_dir' => dirname(__DIR__) . '/var/cache/doctrine/proxy',
+    'cache_dir' => dirname(__DIR__) . '/../var/doctrine',
+    'proxy_dir' => dirname(__DIR__) . '/../var/cache/doctrine/proxy',
 
     'connection' => [
         'driver' => 'pdo_pgsql',
@@ -19,6 +19,6 @@ return [
 
     'subscribers' => [],
     'metadata_dirs' => [
-        dirname(__DIR__) . '/src/Entities',
+        dirname(__DIR__) . '/../src/Entities',
     ],
 ];

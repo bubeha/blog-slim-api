@@ -6,6 +6,9 @@ use App\Services\Config\Config;
 use App\Services\Config\ConfigInterface;
 use App\Services\ErrorHandler\LogErrorHandler;
 use App\Services\Logger\Factory;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Log\LoggerInterface;
@@ -46,5 +49,23 @@ return [
         );
 
         return $middleware;
+    },
+    EntityManagerInterface::class => static function (ContainerInterface $container) {
+        $config = $container->get(ConfigInterface::class);
+
+        /**
+         * @var array{metadata_dirs: string[], dev_mode: bool, connection: array<string, mixed>}
+         */
+        $config = $config->get('doctrine');
+
+        $setup = Setup::createAnnotationMetadataConfiguration(
+            $config['metadata_dirs'],
+            $config['dev_mode'],
+        );
+
+        return EntityManager::create(
+            $config['connection'],
+            $setup
+        );
     },
 ];
