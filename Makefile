@@ -33,7 +33,7 @@ test-functional-coverage:
 	docker-compose run --rm --no-deps php-cli composer test-coverage -- --testsuite=functional
 
 psalm:
-	time docker-compose run --rm --no-deps php-cli composer run psalm
+	docker-compose run --rm --no-deps php-cli composer run psalm
 
 lint:
 	docker-compose run --rm --no-deps php-cli composer run phplint
