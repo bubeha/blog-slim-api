@@ -18,10 +18,12 @@ use Slim\App;
 final class Kernel
 {
     private App $application;
+    private string $environment;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(string $environment, ContainerInterface $container)
     {
         $this->application = $container->get(App::class);
+        $this->environment = $environment;
     }
 
     /**
@@ -35,18 +37,6 @@ final class Kernel
     }
 
     /**
-     * @return array<LoaderInterface>
-     */
-    public function getLoaders(): array
-    {
-        return [
-            new ConfigLoader(),
-            new MiddlewareLoader(),
-            new RouteLoader(),
-        ];
-    }
-
-    /**
      * @throws Exception
      */
     private function load(): void
@@ -57,5 +47,20 @@ final class Kernel
         foreach ($this->getLoaders() as $loader) {
             $loader->load($container);
         }
+    }
+
+    /**
+     * @return array<LoaderInterface>
+     */
+    public function getLoaders(): array
+    {
+        return [
+            new ConfigLoader([
+                \dirname(__DIR__) . '/config/packages/*.php',
+                \dirname(__DIR__) . "/config/packages/{$this->environment}/*.php",
+            ]),
+            new MiddlewareLoader(),
+            new RouteLoader(),
+        ];
     }
 }

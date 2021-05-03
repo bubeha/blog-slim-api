@@ -11,22 +11,41 @@ use Psr\Container\ContainerInterface;
 
 final class ConfigLoader implements LoaderInterface
 {
+    /** @var array<string> */
+    private array $patterns;
+
+    /**
+     * @param array<string> $patterns
+     */
+    public function __construct(array $patterns = [])
+    {
+        $this->patterns = $patterns;
+    }
+
     public function load(ContainerInterface $container): void
     {
         $config = $container->get(ConfigInterface::class);
 
-        $directory = \dirname(__DIR__) . '/../../config/packages';
-
-        // todo load
-        $environment = getenv('APP_ENV') ?: 'prod';
-
-        $aggregator = new ConfigAggregator([
-            new Provider("{$directory}/*php"),
-            new Provider("{$directory}/{$environment}/*php"),
-        ]);
+        $aggregator = new ConfigAggregator(
+            $this->getProviders()
+        );
 
         $config->setMany(
             $aggregator->getMergedConfig()
         );
+    }
+
+    /**
+     * @return \App\Services\Config\Provider[]
+     */
+    private function getProviders(): array
+    {
+        $providers = [];
+
+        foreach ($this->patterns as $directory) {
+            $providers[] = new Provider($directory);
+        }
+
+        return $providers;
     }
 }
