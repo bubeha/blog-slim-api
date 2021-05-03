@@ -55,7 +55,7 @@ services:
 
   api:
     build:
-      context: ./api/.docker/nginx
+      context: ./api/docker/nginx
     volumes:
       - "./api:/application"
     ports:
