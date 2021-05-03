@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+// todo make directories for development and production
+
 return [
     'dev_mode' => true,
-    'cache_dir' => dirname(__DIR__) . '/../var/doctrine',
+    'cache_dir' => 'prod' === env('APP_ENV') ? dirname(__DIR__) . '/../var/cache/doctrine' : null,
     'proxy_dir' => dirname(__DIR__) . '/../var/cache/doctrine/proxy',
 
     'connection' => [

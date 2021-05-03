@@ -22,8 +22,8 @@
     "phpunit/phpunit": "^9.5",
     "psalm/plugin-phpunit": "^0.15.1",
     "roave/security-advisories": "dev-master",
-    "vimeo/psalm": "^4.3",
-    "symfony/var-dumper": "^5.2"
+    "symfony/var-dumper": "^5.2",
+    "vimeo/psalm": "^4.3"
   },
   "replace": {
     "symfony/polyfill-ctype": "*",
@@ -55,7 +55,7 @@
   },
   "scripts": {
     "phplint": "phplint",
-    "php-cs-fixer": "php-cs-fixer --config=./.php_cs --allow-risky=yes",
+    "php-cs-fixer": "php-cs-fixer --config=./.php-cs-fixer.php --allow-risky=yes",
     "psalm": "vendor/bin/psalm --config=psalm.xml",
     "test": "phpunit --colors=always",
     "test-coverage": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-html ./var/test/coverage"

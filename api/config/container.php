@@ -6,6 +6,8 @@ use App\Services\Config\Config;
 use App\Services\Config\ConfigInterface;
 use App\Services\ErrorHandler\LogErrorHandler;
 use App\Services\Logger\Factory;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
 use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
 use Doctrine\Migrations\DependencyFactory;
@@ -23,6 +25,8 @@ use Slim\Factory\AppFactory;
 use Slim\Interfaces\CallableResolverInterface;
 use Slim\Middleware\ErrorMiddleware;
 use Slim\Psr7\Factory\ResponseFactory;
+
+// todo make ServiceProvider
 
 return [
     App::class => static fn (ContainerInterface $container) => AppFactory::createFromContainer($container),
@@ -62,13 +66,23 @@ return [
         $config = $container->get(ConfigInterface::class);
 
         /**
-         * @var array{metadata_dirs: string[], dev_mode: bool, connection: array<string, mixed>}
+         * @var array{
+         *      metadata_dirs: string[],
+         *      dev_mode: bool,
+         *      connection: array<string, mixed>,
+         *      proxy_dir:string,
+         *      cache_dir:?string,
+         * }
          */
         $config = $config->get('doctrine');
 
         $setup = Setup::createAnnotationMetadataConfiguration(
             $config['metadata_dirs'],
             $config['dev_mode'],
+            $config['proxy_dir'],
+            // todo fix it
+            $config['cache_dir'] ? new FilesystemCache($config['cache_dir']) : new ArrayCache(),
+            false
         );
 
         return EntityManager::create(

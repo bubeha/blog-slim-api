@@ -26,5 +26,6 @@
 
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
+        <DeprecatedClass errorLevel="info" />
     </issueHandlers>
 </psalm>
