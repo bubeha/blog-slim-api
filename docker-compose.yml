@@ -18,7 +18,7 @@ services:
 
   php-fpm:
     build:
-      context: ./api/.docker
+      context: ./api/docker
       dockerfile: php-fpm/Dockerfile
       args:
         PHP_VERSION: 8
@@ -30,12 +30,13 @@ services:
       - postgres
     depends_on:
       - postgres
+      - api
     environment:
       PHP_IDE_CONFIG: "serverName=docker"
 
   php-cli:
     build:
-      context: ./api/.docker
+      context: ./api/docker
       dockerfile: php-cli/Dockerfile
       args:
         PHP_VERSION: 8
@@ -54,7 +55,7 @@ services:
 
   api:
     build:
-      context: ./api/.docker/nginx
+      context: ./api/docker/nginx
     volumes:
       - "./api:/application"
     ports:

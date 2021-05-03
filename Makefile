@@ -8,12 +8,10 @@ build:
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer install \
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" nodejs yarn install
 
-init: build start
-
-start:
+start: build
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
-		&& time docker-compose up -d --remove-orphans
+		&& time docker-compose up -d --remove-orphans php-fpm
 
 stop:
 	export _UID="${UID}" \
@@ -72,3 +70,8 @@ cs-fix:
 	export _UID="${UID}" \
 		&& export _GID="${GID}" \
 		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer run php-cs-fixer fix
+
+composer-update:
+	export _UID="${UID}" \
+		&& export _GID="${GID}" \
+		&& time docker-compose run --rm --no-deps --user="${UID}:${GID}" php-cli composer update
