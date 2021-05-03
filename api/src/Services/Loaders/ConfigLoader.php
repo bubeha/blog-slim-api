@@ -6,16 +6,13 @@ namespace App\Services\Loaders;
 
 use App\Services\Config\ConfigInterface;
 use Psr\Container\ContainerInterface;
-use Slim\App;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 final class ConfigLoader implements LoaderInterface
 {
-    public function load(App $application): void
+    public function load(ContainerInterface $container): void
     {
-        /** @var ContainerInterface $container */
-        $container = $application->getContainer();
         $config = $container->get(ConfigInterface::class);
 
         $config->setMany(
