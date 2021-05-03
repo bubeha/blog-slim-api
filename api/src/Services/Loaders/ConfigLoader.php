@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Services\Loaders;
 
 use App\Services\Config\ConfigInterface;
+use App\Services\Config\Provider;
+use Laminas\ConfigAggregator\ConfigAggregator;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 final class ConfigLoader implements LoaderInterface
 {
@@ -15,54 +15,18 @@ final class ConfigLoader implements LoaderInterface
     {
         $config = $container->get(ConfigInterface::class);
 
+        $directory = \dirname(__DIR__) . '/../../config/packages';
+
+        // todo load
+        $environment = getenv('APP_ENV') ?: 'prod';
+
+        $aggregator = new ConfigAggregator([
+            new Provider("{$directory}/*php"),
+            new Provider("{$directory}/{$environment}/*php"),
+        ]);
+
         $config->setMany(
-            $this->getParameters(\dirname(__DIR__) . '/../../config/packages/')
+            $aggregator->getMergedConfig()
         );
-    }
-
-    private function getParameters(string $directory): array
-    {
-        $parameters = [];
-
-        /** @var SplFileInfo[] $finder */
-        $finder = Finder::create()
-            ->files()
-            ->name('*.php')
-            ->in($directory)
-        ;
-
-        foreach ($finder as $file) {
-            $directory = $this->getNestedDirectory($file, $directory);
-
-            /** @var string $realPath */
-            $realPath = $file->getRealPath();
-
-            /**
-             * @psalm-suppress UnresolvableInclude
-             *
-             * @var array $value
-             */
-            $value = require $realPath;
-
-            $parameters[basename($realPath, '.php')] = $value;
-        }
-
-        ksort($parameters, SORT_NATURAL);
-
-        return $parameters;
-    }
-
-    /**
-     * Get the configuration file nesting path.
-     */
-    private function getNestedDirectory(SplFileInfo $file, string $configPath): string
-    {
-        $directory = $file->getPath();
-
-        if ($nested = trim(str_replace($configPath, '', $directory), \DIRECTORY_SEPARATOR)) {
-            $nested = str_replace(\DIRECTORY_SEPARATOR, '.', $nested) . '.';
-        }
-
-        return $nested;
     }
 }
