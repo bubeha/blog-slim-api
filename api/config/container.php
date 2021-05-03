@@ -6,6 +6,8 @@ use App\Services\Config\Config;
 use App\Services\Config\ConfigInterface;
 use App\Services\ErrorHandler\LogErrorHandler;
 use App\Services\Logger\Factory;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
 use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
 use Doctrine\Migrations\DependencyFactory;
@@ -25,18 +27,18 @@ use Slim\Middleware\ErrorMiddleware;
 use Slim\Psr7\Factory\ResponseFactory;
 
 return [
-    App::class => static fn (ContainerInterface $container) => AppFactory::createFromContainer($container),
-    ConfigInterface::class => static fn () => new Config(),
+    App::class => static fn(ContainerInterface $container) => AppFactory::createFromContainer($container),
+    ConfigInterface::class => static fn() => new Config(),
     LoggerInterface::class => static function (ContainerInterface $container) {
         /** @var array<string,mixed> $parameters */
         $parameters = ($container->get(ConfigInterface::class))->get('logger', []);
 
         return (new Factory())->make($parameters);
     },
-    CallableResolverInterface::class => static fn (
+    CallableResolverInterface::class => static fn(
         ContainerInterface $container
     ): CallableResolverInterface => new CallableResolver($container),
-    ResponseFactoryInterface::class => static fn (): ResponseFactoryInterface => new ResponseFactory(),
+    ResponseFactoryInterface::class => static fn(): ResponseFactoryInterface => new ResponseFactory(),
     ErrorMiddleware::class => static function (ContainerInterface $container) {
         $callableResolver = $container->get(CallableResolverInterface::class);
         $responseFactory = $container->get(ResponseFactoryInterface::class);
@@ -62,13 +64,22 @@ return [
         $config = $container->get(ConfigInterface::class);
 
         /**
-         * @var array{metadata_dirs: string[], dev_mode: bool, connection: array<string, mixed>}
+         * @var array{
+         *      metadata_dirs: string[],
+         *      dev_mode: bool,
+         *      connection: array<string, mixed>,
+         *      proxy_dir:string,
+         *      cache_dir:?string,
+         * }
          */
         $config = $config->get('doctrine');
 
         $setup = Setup::createAnnotationMetadataConfiguration(
             $config['metadata_dirs'],
             $config['dev_mode'],
+            $config['proxy_dir'],
+            $config['cache_dir'] ? new FilesystemCache($config['cache_dir']) : new ArrayCache(),
+            false
         );
 
         return EntityManager::create(
