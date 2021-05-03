@@ -18,7 +18,7 @@ services:
 
   php-fpm:
     build:
-      context: ./api/.docker
+      context: ./api/docker
       dockerfile: php-fpm/Dockerfile
       args:
         PHP_VERSION: 8
@@ -36,7 +36,7 @@ services:
 
   php-cli:
     build:
-      context: ./api/.docker
+      context: ./api/docker
       dockerfile: php-cli/Dockerfile
       args:
         PHP_VERSION: 8
