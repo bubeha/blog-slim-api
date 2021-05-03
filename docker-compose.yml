@@ -33,6 +33,7 @@ services:
       - api
     environment:
       PHP_IDE_CONFIG: "serverName=docker"
+      APP_ENV: ${APP_ENV}
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -57,6 +58,7 @@ services:
       - postgres
     environment:
       PHP_IDE_CONFIG: "serverName=docker"
+      APP_ENV: ${APP_ENV}
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_DB: ${POSTGRES_DB}

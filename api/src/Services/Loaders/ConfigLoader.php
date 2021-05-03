@@ -5,64 +5,47 @@ declare(strict_types=1);
 namespace App\Services\Loaders;
 
 use App\Services\Config\ConfigInterface;
+use App\Services\Config\Provider;
+use Laminas\ConfigAggregator\ConfigAggregator;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 final class ConfigLoader implements LoaderInterface
 {
+    /** @var array<string> */
+    private array $patterns;
+
+    /**
+     * @param array<string> $patterns
+     */
+    public function __construct(array $patterns = [])
+    {
+        $this->patterns = $patterns;
+    }
+
     public function load(ContainerInterface $container): void
     {
         $config = $container->get(ConfigInterface::class);
 
+        $aggregator = new ConfigAggregator(
+            $this->getProviders()
+        );
+
         $config->setMany(
-            $this->getParameters(\dirname(__DIR__) . '/../../config/packages/')
+            $aggregator->getMergedConfig()
         );
     }
 
-    private function getParameters(string $directory): array
-    {
-        $parameters = [];
-
-        /** @var SplFileInfo[] $finder */
-        $finder = Finder::create()
-            ->files()
-            ->name('*.php')
-            ->in($directory)
-        ;
-
-        foreach ($finder as $file) {
-            $directory = $this->getNestedDirectory($file, $directory);
-
-            /** @var string $realPath */
-            $realPath = $file->getRealPath();
-
-            /**
-             * @psalm-suppress UnresolvableInclude
-             *
-             * @var array $value
-             */
-            $value = require $realPath;
-
-            $parameters[basename($realPath, '.php')] = $value;
-        }
-
-        ksort($parameters, SORT_NATURAL);
-
-        return $parameters;
-    }
-
     /**
-     * Get the configuration file nesting path.
+     * @return \App\Services\Config\Provider[]
      */
-    private function getNestedDirectory(SplFileInfo $file, string $configPath): string
+    private function getProviders(): array
     {
-        $directory = $file->getPath();
+        $providers = [];
 
-        if ($nested = trim(str_replace($configPath, '', $directory), \DIRECTORY_SEPARATOR)) {
-            $nested = str_replace(\DIRECTORY_SEPARATOR, '.', $nested) . '.';
+        foreach ($this->patterns as $directory) {
+            $providers[] = new Provider($directory);
         }
 
-        return $nested;
+        return $providers;
     }
 }

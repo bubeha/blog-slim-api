@@ -6,6 +6,9 @@ use App\Kernel;
 
 $container = require dirname(__DIR__) . '/config/bootstrap.php';
 
-(new Kernel($container))
+/** @var string $environment */
+$environment = env('APP_ENV', 'prod');
+
+(new Kernel($environment, $container))
     ->handle()
 ;
