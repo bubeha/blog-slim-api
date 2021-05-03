@@ -32,19 +32,14 @@ class Article
     private string $title;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", name="created_at")
      */
     private DateTimeInterface $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", name="updated_at")
      */
     private DateTimeInterface $updatedAt;
-
-    public function __construct()
-    {
-        $this->createdAt = new DateTime('now');
-    }
 
     public function getId(): int
     {
@@ -93,10 +88,5 @@ class Article
     public function getUpdatedAt(): DateTimeInterface
     {
         return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(): void
-    {
-        $this->updatedAt = new DateTime('now');
     }
 }
