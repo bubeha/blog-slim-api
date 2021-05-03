@@ -29,18 +29,18 @@ use Slim\Psr7\Factory\ResponseFactory;
 // todo make ServiceProvider
 
 return [
-    App::class => static fn(ContainerInterface $container) => AppFactory::createFromContainer($container),
-    ConfigInterface::class => static fn() => new Config(),
+    App::class => static fn (ContainerInterface $container) => AppFactory::createFromContainer($container),
+    ConfigInterface::class => static fn () => new Config(),
     LoggerInterface::class => static function (ContainerInterface $container) {
         /** @var array<string,mixed> $parameters */
         $parameters = ($container->get(ConfigInterface::class))->get('logger', []);
 
         return (new Factory())->make($parameters);
     },
-    CallableResolverInterface::class => static fn(
+    CallableResolverInterface::class => static fn (
         ContainerInterface $container
     ): CallableResolverInterface => new CallableResolver($container),
-    ResponseFactoryInterface::class => static fn(): ResponseFactoryInterface => new ResponseFactory(),
+    ResponseFactoryInterface::class => static fn (): ResponseFactoryInterface => new ResponseFactory(),
     ErrorMiddleware::class => static function (ContainerInterface $container) {
         $callableResolver = $container->get(CallableResolverInterface::class);
         $responseFactory = $container->get(ResponseFactoryInterface::class);
@@ -80,6 +80,7 @@ return [
             $config['metadata_dirs'],
             $config['dev_mode'],
             $config['proxy_dir'],
+            // todo fix it
             $config['cache_dir'] ? new FilesystemCache($config['cache_dir']) : new ArrayCache(),
             false
         );
