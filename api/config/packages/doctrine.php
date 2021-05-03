@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-// todo make directories for development and production
-
 return [
     'dev_mode' => false,
     'cache_dir' => dirname(__DIR__) . '/../var/cache/doctrine',
