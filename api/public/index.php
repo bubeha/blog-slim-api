@@ -10,4 +10,5 @@ $container = require dirname(__DIR__) . '/config/bootstrap.php';
 $environment = env('APP_ENV', 'prod');
 
 (new Kernel($environment, $container))
-    ->handle();
+    ->handle()
+;

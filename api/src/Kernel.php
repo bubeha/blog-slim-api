@@ -37,19 +37,6 @@ final class Kernel
     }
 
     /**
-     * @throws Exception
-     */
-    private function load(): void
-    {
-        /** @var ContainerInterface $container */
-        $container = $this->application->getContainer();
-
-        foreach ($this->getLoaders() as $loader) {
-            $loader->load($container);
-        }
-    }
-
-    /**
      * @return array<LoaderInterface>
      */
     public function getLoaders(): array
@@ -62,5 +49,18 @@ final class Kernel
             new MiddlewareLoader(),
             new RouteLoader(),
         ];
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function load(): void
+    {
+        /** @var ContainerInterface $container */
+        $container = $this->application->getContainer();
+
+        foreach ($this->getLoaders() as $loader) {
+            $loader->load($container);
+        }
     }
 }
