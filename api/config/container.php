@@ -26,6 +26,8 @@ use Slim\Interfaces\CallableResolverInterface;
 use Slim\Middleware\ErrorMiddleware;
 use Slim\Psr7\Factory\ResponseFactory;
 
+// todo make ServiceProvider
+
 return [
     App::class => static fn(ContainerInterface $container) => AppFactory::createFromContainer($container),
     ConfigInterface::class => static fn() => new Config(),
