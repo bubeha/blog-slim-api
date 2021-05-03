@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
-use DateTime;
-use DateTimeInterface;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="articles")
+ * @ORM\HasLifecycleCallbacks
  */
-class Article
+final class Article
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue()
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
@@ -32,36 +32,41 @@ class Article
     private string $title;
 
     /**
-     * @ORM\Column(type="datetime", name="created_at")
+     * @ORM\Column(type="datetime_immutable", name="created_at", nullable=true)
      */
-    private DateTimeInterface $createdAt;
+    private ?DateTimeImmutable $createdAt = null;
 
     /**
-     * @ORM\Column(type="datetime", name="updated_at")
+     * @ORM\Column(type="datetime_immutable", name="updated_at", nullable=true)
      */
-    private DateTimeInterface $updatedAt;
+    private ?DateTimeImmutable $updatedAt = null;
 
-    public function getId(): int
+    public function __construct(
+        string $slug,
+        string $title
+    ) {
+        $this->slug = $slug;
+        $this->title = $title;
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): static
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
-    public function setSlug(string $slug): static
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
@@ -73,20 +78,36 @@ class Article
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getCreatedAt(): DateTimeInterface
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): DateTimeInterface
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt(): void
+    {
+        $this->createdAt = new DateTimeImmutable('now');
+    }
+
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt(): void
+    {
+        $this->updatedAt = new DateTimeImmutable('now');
     }
 }
