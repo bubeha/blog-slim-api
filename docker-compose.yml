@@ -30,6 +30,7 @@ services:
       - postgres
     depends_on:
       - postgres
+      - api
     environment:
       PHP_IDE_CONFIG: "serverName=docker"
 
