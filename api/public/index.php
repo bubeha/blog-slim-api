@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Kernel;
+use App\Http\Kernel;
 
 $container = require dirname(__DIR__) . '/config/bootstrap.php';
 

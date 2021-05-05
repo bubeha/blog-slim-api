@@ -15,7 +15,7 @@ use Slim\App;
 /**
  * Class Kernel.
  */
-final class Kernel
+abstract class AbstractKernel
 {
     private App $application;
     private string $environment;
@@ -46,8 +46,6 @@ final class Kernel
                 \dirname(__DIR__) . '/config/packages/*.php',
                 \dirname(__DIR__) . "/config/packages/{$this->environment}/*.php",
             ]),
-            new MiddlewareLoader(),
-            new RouteLoader(),
         ];
     }
 
