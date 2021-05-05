@@ -52,6 +52,7 @@ return
             'php_unit_strict' => false,
             'php_unit_test_class_requires_covers' => false,
             'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
+            'yoda_style' => true,
 
             'final_class' => true,
             'final_public_method_for_abstract_class' => true,
