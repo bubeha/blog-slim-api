@@ -8,6 +8,7 @@ use App\Services\ErrorHandler\LogErrorHandler;
 use App\Services\Logger\Factory;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
 use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
 use Doctrine\Migrations\DependencyFactory;
@@ -70,12 +71,16 @@ return [
          *      metadata_dirs: string[],
          *      dev_mode: bool,
          *      connection: array<string, mixed>,
-         *      proxy_dir:string,
-         *      cache_dir:?string,
+         *      proxy_dir: string,
+         *      cache_dir: ?string,
+         *      types: array<string, \Doctrine\DBAL\Types\Type::class>
          * }
          */
         $config = $config->get('doctrine');
 
+        foreach ($config['types'] as $key => $type) {
+            Type::addType($key, $type);
+        }
         $setup = Setup::createAnnotationMetadataConfiguration(
             $config['metadata_dirs'],
             $config['dev_mode'],

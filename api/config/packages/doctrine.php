@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Ramsey\Uuid\Doctrine\UuidType;
+
 return [
     'dev_mode' => false,
     'cache_dir' => dirname(__DIR__) . '/../var/cache/doctrine',
@@ -20,5 +22,8 @@ return [
     'subscribers' => [],
     'metadata_dirs' => [
         dirname(__DIR__) . '/../src/Entities',
+    ],
+    'types' => [
+        UuidType::NAME => UuidType::class,
     ],
 ];
