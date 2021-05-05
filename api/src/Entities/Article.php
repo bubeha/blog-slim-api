@@ -6,6 +6,8 @@ namespace App\Entities;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -16,10 +18,11 @@ final class Article
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
-    private ?int $id = null;
+    private UuidInterface $id;
 
     /**
      * @ORM\Column(type="string", unique=true, nullable=false)
@@ -42,23 +45,18 @@ final class Article
     private ?DateTimeImmutable $updatedAt = null;
 
     public function __construct(
+        UuidInterface $id,
         string $slug,
         string $title
     ) {
+        $this->id = $id;
         $this->slug = $slug;
         $this->title = $title;
     }
 
-    public function getId(): ?int
+    public function getId(): UuidInterface
     {
         return $this->id;
-    }
-
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getSlug(): string

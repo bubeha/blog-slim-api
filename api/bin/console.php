@@ -20,8 +20,14 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $container = require dirname(__DIR__) . '/config/bootstrap.php';
 
+/** @var string $environment */
+$environment = env('APP_ENV', 'prod');
+
 // TODO make Console Kernel
-(new ConfigLoader())->load($container);
+(new ConfigLoader([
+    dirname(__DIR__) . '/config/packages/*.php',
+    dirname(__DIR__) . "/config/packages/{$environment}/*.php",
+]))->load($container);
 
 $app = new Application();
 
