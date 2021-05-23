@@ -14,6 +14,15 @@
         "symfony/yaml": "5.2.*"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpunit/phpunit": "^9.5",
+        "psalm/plugin-phpunit": "^0.15.1",
+        "psalm/plugin-symfony": "^2.3",
+        "roave/security-advisories": "dev-latest",
+        "symfony/browser-kit": "^5.2",
+        "symfony/css-selector": "^5.2",
+        "symfony/phpunit-bridge": "^5.2",
+        "vimeo/psalm": "^4.7"
     },
     "config": {
         "optimize-autoloader": true,
@@ -47,7 +56,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "phplint": "phplint",
+        "php-cs-fixer": "php-cs-fixer --config=./.php-cs-fixer.php --allow-risky=yes",
+        "psalm": "vendor/bin/psalm --config=psalm.xml"
     },
     "conflict": {
         "symfony/symfony": "*"
