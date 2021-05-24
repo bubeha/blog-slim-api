@@ -4,7 +4,7 @@ build:
 	docker-compose run --rm --no-deps nodejs yarn install
 
 start: down build
-	docker-compose up -d --remove-orphans php-fpm
+	docker-compose up -d --remove-orphans php-fpm nodejs
 
 stop:
 	docker-compose stop
