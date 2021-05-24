@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class MaintenanceController
 {
-    /**
-     * @Route(path="/", name="mainenance", methods={"GET"})
-     */
+    #[Route('/', name: 'maintenance', methods: ['GET'])]
     public function index(): Response
     {
         return new JsonResponse('Maintenance mode');
