@@ -33,12 +33,13 @@ services:
       - api
     environment:
       PHP_IDE_CONFIG: "serverName=docker"
-      APP_ENV: ${APP_ENV}
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   php-cli:
     build:
@@ -58,12 +59,13 @@ services:
       - postgres
     environment:
       PHP_IDE_CONFIG: "serverName=docker"
-      APP_ENV: ${APP_ENV}
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   api:
     build:
