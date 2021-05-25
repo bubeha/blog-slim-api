@@ -68,7 +68,8 @@
     ],
     "phplint": "phplint",
     "php-cs-fixer": "php-cs-fixer --config=./.php-cs-fixer.php --allow-risky=yes",
-    "psalm": "vendor/bin/psalm --config=psalm.xml"
+    "psalm": "vendor/bin/psalm --config=psalm.xml",
+    "test": "phpunit --colors=always"
   },
   "conflict": {
     "symfony/symfony": "*"
