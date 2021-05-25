@@ -12,9 +12,11 @@ class ExampleTest extends WebTestCase
 
     public function testSomething(): void
     {
-       $client = static::createClient();
-       $client->request(Request::METHOD_GET, '/');
+        $client = static::createClient();
+        $client->request(Request::METHOD_GET, '/');
+        $response = $client->getResponse();
 
-        self::assertResponseStatusCodeSame(200);
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('"Maintenance mode"', $response->getContent());
     }
 }
