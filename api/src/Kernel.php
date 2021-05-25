@@ -4,63 +4,37 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Services\Loaders\ConfigLoader;
-use App\Services\Loaders\LoaderInterface;
-use App\Services\Loaders\MiddlewareLoader;
-use App\Services\Loaders\RouteLoader;
-use Exception;
-use Psr\Container\ContainerInterface;
-use Slim\App;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-/**
- * Class Kernel.
- */
-final class Kernel
+final class Kernel extends BaseKernel
 {
-    private App $application;
-    private string $environment;
+    use MicroKernelTrait;
 
-    public function __construct(string $environment, ContainerInterface $container)
+    protected function configureContainer(ContainerConfigurator $container): void
     {
-        $this->application = $container->get(App::class);
-        $this->environment = $environment;
+        $container->import('../config/{packages}/*.yaml');
+        $container->import('../config/{packages}/' . $this->environment . '/*.yaml');
+
+        if (is_file(\dirname(__DIR__) . '/config/services.yaml')) {
+            $container->import('../config/services.yaml');
+            $container->import('../config/{services}_' . $this->environment . '.yaml');
+        } elseif (is_file($path = \dirname(__DIR__) . '/config/services.php')) {
+            (require $path)($container->withPath($path), $this);
+        }
     }
 
-    /**
-     * @throws Exception
-     */
-    public function handle(): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
-        $this->load();
+        $routes->import('../config/{routes}/' . $this->environment . '/*.yaml');
+        $routes->import('../config/{routes}/*.yaml');
 
-        $this->application->run();
-    }
-
-    /**
-     * @return array<LoaderInterface>
-     */
-    public function getLoaders(): array
-    {
-        return [
-            new ConfigLoader([
-                \dirname(__DIR__) . '/config/packages/*.php',
-                \dirname(__DIR__) . "/config/packages/{$this->environment}/*.php",
-            ]),
-            new MiddlewareLoader(),
-            new RouteLoader(),
-        ];
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function load(): void
-    {
-        /** @var ContainerInterface $container */
-        $container = $this->application->getContainer();
-
-        foreach ($this->getLoaders() as $loader) {
-            $loader->load($container);
+        if (is_file(\dirname(__DIR__) . '/config/routes.yaml')) {
+            $routes->import('../config/routes.yaml');
+        } elseif (is_file($path = \dirname(__DIR__) . '/config/routes.php')) {
+            (require $path)($routes->withPath($path), $this);
         }
     }
 }

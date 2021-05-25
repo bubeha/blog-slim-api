@@ -5,27 +5,29 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-        cacheDirectory="./var/cache/.psalm"
+        cacheDirectory="/application/var/cache/.psalm"
 >
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
-        <pluginClass class="Lctrs\PsalmPsrContainerPlugin\Plugin"/>
-    </plugins>
+<!--        <pluginClass class="Lctrs\PsalmPsrContainerPlugin\Plugin"/>-->
+    <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/></plugins>
 
     <projectFiles>
-        <directory name="bin" />
-        <directory name="config" />
-        <directory name="public" />
-        <directory name="src" />
-        <directory name="tests" />
+        <directory name="bin"/>
+        <directory name="config"/>
+        <directory name="public"/>
+        <directory name="src"/>
+        <directory name="tests"/>
 
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="vendor"/>
+            <file name="config/preload.php"/>
+            <file name="tests/bootstrap.php"/>
         </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="info" />
-        <DeprecatedClass errorLevel="info" />
+        <LessSpecificReturnType errorLevel="info"/>
+        <DeprecatedClass errorLevel="info"/>
     </issueHandlers>
 </psalm>

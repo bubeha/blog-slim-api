@@ -3,12 +3,22 @@
 declare(strict_types=1);
 
 use App\Kernel;
+use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\ErrorHandler\Debug;
+use Symfony\Component\HttpFoundation\Request;
 
-$container = require dirname(__DIR__) . '/config/bootstrap.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-/** @var string $environment */
-$environment = env('APP_ENV', 'prod');
+(new Dotenv())->bootEnv(dirname(__DIR__) . '/.env');
 
-(new Kernel($environment, $container))
-    ->handle()
-;
+if ($_SERVER['APP_DEBUG']) {
+    umask(0000);
+
+    Debug::enable();
+}
+
+$kernel = new Kernel((string)$_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
+$request = Request::createFromGlobals();
+$response = $kernel->handle($request);
+$response->send();
+$kernel->terminate($request, $response);

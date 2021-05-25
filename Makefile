@@ -4,7 +4,7 @@ build:
 	docker-compose run --rm --no-deps nodejs yarn install
 
 start: down build
-	docker-compose up -d --remove-orphans php-fpm
+	docker-compose up -d --remove-orphans php-fpm nodejs
 
 stop:
 	docker-compose stop
@@ -15,8 +15,12 @@ down:
 down-clear:
 	docker-compose down -v --remove-orphans
 
+pull:
+	docker-compose pull
+
 update-deps:
 	docker-compose run --rm --no-deps php-cli composer update
+	docker-compose run --rm --no-deps nodejs yarn upgrade
 
 test-unit:
 	docker-compose run --rm --no-deps php-cli composer test -- --testsuite=unit

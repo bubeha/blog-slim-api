@@ -13,7 +13,6 @@ return
                     __DIR__ . '/public',
                     __DIR__ . '/src',
                     __DIR__ . '/tests',
-                    __DIR__ . '/utils',
                 ])
                 ->append([
                     __FILE__,
