@@ -7,12 +7,14 @@ namespace App\Tests\Functional;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class ExampleTest extends WebTestCase
+/**
+ * @internal
+ */
+final class ExampleTest extends WebTestCase
 {
-
     public function testSomething(): void
     {
-        $client = static::createClient();
+        $client = self::createClient();
         $client->request(Request::METHOD_GET, '/');
         $response = $client->getResponse();
 
