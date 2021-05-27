@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\User;
@@ -11,13 +13,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class RegisterAdminCommand extends Command
+final class RegisterAdminCommand extends Command
 {
-    private UserPasswordEncoderInterface $passwordEncoder;
-    private EntityManagerInterface $em;
-
     protected static $defaultName = 'app:create-user';
     protected static string $defaultDescription = 'Command for user registration by CLI interface';
+    private UserPasswordEncoderInterface $passwordEncoder;
+    private EntityManagerInterface $em;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
@@ -42,7 +43,9 @@ class RegisterAdminCommand extends Command
         $email = $input->getArgument('email');
         $password = $input->getArgument('password');
 
-        $user = new User();
+        $user = new User(
+            $email,
+        );
 
         $user->setEmail($email);
         $user->setRoles(['ROLE_USER']);

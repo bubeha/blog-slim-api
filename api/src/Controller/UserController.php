@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserController extends AbstractController
+final class UserController
 {
     #[Route('/api/me', name: 'me', methods: ['GET'])]
-    public function index(): JsonResponse {
-        $user = $this->getUser();
+    public function index(UserInterface $user): JsonResponse
+    {
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
 
         return new JsonResponse([
             'id' => $user->getId(),

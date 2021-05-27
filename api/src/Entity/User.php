@@ -27,10 +27,11 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private ?string $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="json")
+     * @var list<string>
      */
     private array $roles = [];
 
@@ -38,6 +39,12 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private string $password;
+
+    public function __construct(string $email)
+    {
+        $this->id = new UuidV4();
+        $this->email = $email;
+    }
 
     public function getId(): UuidV4
     {
@@ -56,14 +63,9 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUsername(): string
     {
-        return (string)$this->email;
+        return $this->email;
     }
 
     /**
@@ -78,6 +80,9 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param list<string> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -85,9 +90,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getPassword(): string
     {
         return $this->password;
@@ -100,20 +102,11 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
     public function getSalt(): ?string
     {
         return null;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
