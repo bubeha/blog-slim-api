@@ -37,6 +37,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string")
+     * @psalm-suppress PropertyNotSetInConstructor
      */
     private string $password;
 
