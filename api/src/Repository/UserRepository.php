@@ -14,8 +14,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @method \App\Entity\User|null find($id, $lockMode = null, $lockVersion = null)
  * @method \App\Entity\User|null findOneBy(array $criteria, array $orderBy = null)
- * @method list<\App\Entity\User> findAll()
- * @method list<\App\Entity\User> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method \App\Entity\User[] findAll()
+ * @method \App\Entity\User[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  * @psalm-suppress PropertyNotSetInConstructor
  */
 final class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
