@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Listeners;
+namespace App\EventSubscribers;
 
 use App\Exceptions\ValidationException;
 use Symfony\Component\Console\Command\Command;
