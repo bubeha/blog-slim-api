@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class RegistrationService
+final class RegistrationService
 {
     public function __construct(
         private UserPasswordEncoderInterface $passwordEncoder,
@@ -24,7 +24,7 @@ class RegistrationService
     {
         $errors = $this->validator->validate($dto);
 
-        if (count($errors) !== 0) {
+        if (0 !== \count($errors)) {
             throw new ValidationException($errors);
         }
 

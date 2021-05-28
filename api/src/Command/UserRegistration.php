@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class RegisterAdminCommand extends Command
+final class UserRegistration extends Command
 {
     protected static $defaultName = 'app:create-user';
     protected static string $defaultDescription = 'Command for user registration by CLI interface';
@@ -32,7 +32,8 @@ final class RegisterAdminCommand extends Command
             ->setDescription(self::$defaultDescription)
             ->addArgument('email', InputArgument::REQUIRED, 'User email')
             ->addArgument('password', InputArgument::REQUIRED, 'User password')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

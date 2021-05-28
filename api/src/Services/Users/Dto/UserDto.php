@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Services\Users\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @psalm-immutable
  */
-class UserDto
+final class UserDto
 {
     #[Assert\NotBlank]
     #[Assert\Email()]
@@ -27,24 +26,13 @@ class UserDto
         $this->password = $password;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function __toString(): string
-    {
-        return '123';
     }
 }

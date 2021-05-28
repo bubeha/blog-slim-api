@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class CurrentUserController
+final class CurrentUserController
 {
     #[Route('/api/me', name: 'me', methods: ['GET'])]
     public function index(UserInterface $user): JsonResponse
