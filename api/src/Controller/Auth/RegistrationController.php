@@ -19,11 +19,11 @@ final class RegistrationController
     #[Route('/api/registration', name: 'registration')]
     public function __invoke(Request $request): JsonResponse
     {
+        $email = (string)$request->get('email');
+        $password = (string)$request->get('password');
+
         $this->service->register(
-            new UserDto(
-                $request->get('email', ''),
-                $request->get('password', '')
-            )
+            new UserDto($email, $password)
         );
 
         return new JsonResponse('done');

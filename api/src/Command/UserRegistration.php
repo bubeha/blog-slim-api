@@ -38,12 +38,12 @@ final class UserRegistration extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $dto = new UserDto(
-            (string)$input->getArgument('email'),
-            (string)$input->getArgument('password')
-        );
+        $email = $input->getArgument('email');
+        $password = $input->getArgument('password');
 
-        $this->service->register($dto);
+        $this->service->register(
+            new UserDto($email, $password)
+        );
 
         return Command::SUCCESS;
     }

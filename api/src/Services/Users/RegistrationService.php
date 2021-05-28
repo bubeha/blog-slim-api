@@ -22,6 +22,7 @@ final class RegistrationService
 
     public function register(UserDto $dto): void
     {
+        /** @var non-empty-list<\Symfony\Component\Validator\ConstraintViolationInterface> $errors */
         $errors = $this->validator->validate($dto);
 
         if (0 !== \count($errors)) {

@@ -23,9 +23,9 @@ final class ConsoleExceptionListener implements EventSubscriberInterface
     {
         $error = $event->getError();
         if ($error instanceof ValidationException) {
-            foreach ($error->getMessages() as $key => $message) {
-                $messages = implode('. ', $message);
-                $event->getOutput()->writeln("<error>{$key}: {$messages}</error>");
+            foreach ($error->getMessages() as $key => $value) {
+                $message = implode('. ', $value);
+                $event->getOutput()->writeln("<error>{$key}: {$message}</error>");
             }
 
             $event->setExitCode(Command::FAILURE);
