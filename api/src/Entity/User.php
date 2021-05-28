@@ -26,6 +26,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @psalm-suppress PropertyNotSetInConstructor
      */
     private string $email;
 
@@ -41,10 +42,9 @@ class User implements UserInterface
      */
     private string $password;
 
-    public function __construct(string $email)
+    public function __construct()
     {
         $this->id = new UuidV4();
-        $this->email = $email;
     }
 
     public function getId(): UuidV4
