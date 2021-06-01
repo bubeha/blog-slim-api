@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use RuntimeException;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 final class ValidationException extends RuntimeException
 {
-    /** @var non-empty-list<\Symfony\Component\Validator\ConstraintViolationInterface> */
-    private array $errors;
+    private ConstraintViolationListInterface $errors;
 
-    /**
-     * ValidationException constructor.
-     * @param non-empty-list<\Symfony\Component\Validator\ConstraintViolationInterface> $errors
-     */
-    public function __construct(array $errors)
+    public function __construct(ConstraintViolationListInterface $errors)
     {
         $this->errors = $errors;
 

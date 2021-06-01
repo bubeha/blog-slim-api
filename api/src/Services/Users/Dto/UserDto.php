@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Users\Dto;
 
+use App\Entity\User;
+use App\Validator\Constraint\UniqueValue;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,6 +16,8 @@ final class UserDto
     #[Assert\NotBlank]
     #[Assert\Email()]
     #[Assert\Length(min: 4, max: 255)]
+
+    #[UniqueValue(entityClass: User::class, field: 'email')]
     private string $email;
 
     #[Assert\NotBlank]
