@@ -4,26 +4,24 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Services\Users\Dto\UserDto;
+use App\Services\Users\RegistrationService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-final class RegisterAdminCommand extends Command
+final class UserRegistration extends Command
 {
     protected static $defaultName = 'app:create-user';
     protected static string $defaultDescription = 'Command for user registration by CLI interface';
-    private UserPasswordEncoderInterface $passwordEncoder;
-    private EntityManagerInterface $em;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
+    private RegistrationService $service;
+
+    public function __construct(RegistrationService $service)
     {
-        $this->passwordEncoder = $passwordEncoder;
-        $this->em = $em;
+        $this->service = $service;
 
         parent::__construct();
     }
@@ -43,15 +41,9 @@ final class RegisterAdminCommand extends Command
         $email = $input->getArgument('email');
         $password = $input->getArgument('password');
 
-        $user = new User(
-            $email,
+        $this->service->register(
+            new UserDto($email, $password)
         );
-
-        $user->setEmail($email);
-        $user->setRoles(['ROLE_USER']);
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
-        $this->em->persist($user);
-        $this->em->flush();
 
         return Command::SUCCESS;
     }
