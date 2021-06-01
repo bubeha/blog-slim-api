@@ -16,7 +16,7 @@ final class RegistrationController
     {
     }
 
-    #[Route('/api/registration', name: 'registration')]
+    #[Route('/api/registration', name: 'registration', methods: ["POST"])]
     public function __invoke(Request $request): JsonResponse
     {
         $email = (string)$request->get('email');
