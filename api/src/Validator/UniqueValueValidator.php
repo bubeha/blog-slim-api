@@ -7,7 +7,6 @@ namespace App\Validator;
 use App\Validator\Constraint\UniqueValue;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use InvalidArgumentException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -32,10 +31,6 @@ final class UniqueValueValidator extends ConstraintValidator
         }
 
         $entityRepository = $this->entityManager->getRepository($constraint->entityClass);
-
-        if (!is_scalar($constraint->field)) {
-            throw new InvalidArgumentException('"field" parameter should be any scalar type');
-        }
 
         $searchResults = $entityRepository->findBy([
             $constraint->field => $value,

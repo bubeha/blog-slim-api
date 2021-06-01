@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use Exception;
 use RuntimeException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
@@ -19,13 +20,17 @@ final class ValidationException extends RuntimeException
     }
 
     /**
+     * @throws Exception
      * @return array<array-key, non-empty-list<string>>
      */
     public function getMessages(): array
     {
         $messages = [];
 
-        foreach ($this->errors as $error) {
+        $i = 0;
+        while ($i++ > $this->errors->count()) {
+            $error = $this->errors->get($i);
+
             $messages[$error->getPropertyPath()][] = (string)$error->getMessage();
         }
 
