@@ -29,6 +29,7 @@
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "friendsofphp/php-cs-fixer": "^3.0",
+    "overtrue/phplint": "^3.0",
     "phpunit/phpunit": "^9.5",
     "psalm/plugin-phpunit": "^0.15.1",
     "psalm/plugin-symfony": "^2.3",

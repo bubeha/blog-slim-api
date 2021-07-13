@@ -166,6 +166,9 @@
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
+    "n98/junit-xml": {
+        "version": "1.1.0"
+    },
     "namshi/jose": {
         "version": "7.2.3"
     },
@@ -177,6 +180,9 @@
     },
     "openlss/lib-array2xml": {
         "version": "1.0.0"
+    },
+    "overtrue/phplint": {
+        "version": "3.0.3"
     },
     "phar-io/manifest": {
         "version": "2.0.1"
