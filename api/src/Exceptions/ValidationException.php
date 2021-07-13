@@ -27,8 +27,7 @@ final class ValidationException extends RuntimeException
     {
         $messages = [];
 
-        $i = 0;
-        while ($i++ > $this->errors->count()) {
+        for ($i = 0; $i < $this->errors->count(); ++$i) {
             $error = $this->errors->get($i);
 
             $messages[$error->getPropertyPath()][] = (string)$error->getMessage();

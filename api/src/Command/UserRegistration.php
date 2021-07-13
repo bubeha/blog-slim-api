@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Services\Users\Dto\UserDto;
-use App\Services\Users\RegistrationService;
+use App\Services\Authentication\RegistrationService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,14 +35,15 @@ final class UserRegistration extends Command
         ;
     }
 
+    /**
+     * @psalm-suppress RedundantCast
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $email = $input->getArgument('email');
-        $password = $input->getArgument('password');
+        $email = (string)($input->getArgument('email'));
+        $password = (string)($input->getArgument('password'));
 
-        $this->service->register(
-            new UserDto($email, $password)
-        );
+        $this->service->register($email, $password);
 
         return Command::SUCCESS;
     }

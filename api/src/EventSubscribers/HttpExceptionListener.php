@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventSubscribers;
 
 use App\Exceptions\ValidationException;
+use Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,9 @@ final class HttpExceptionListener implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();

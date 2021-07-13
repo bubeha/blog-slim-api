@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Auth;
 
-use App\Services\Users\Dto\UserDto;
-use App\Services\Users\RegistrationService;
+use App\Services\Authentication\Forms\RegistrationForm;
+use App\Services\Authentication\RegistrationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class RegistrationController
@@ -17,14 +16,15 @@ final class RegistrationController
     }
 
     #[Route('/api/registration', name: 'registration', methods: ['POST'])]
-    public function __invoke(Request $request): JsonResponse
-    {
-        $email = (string)$request->get('email');
-        $password = (string)$request->get('password');
-
-        $this->service->register(
-            new UserDto($email, $password)
-        );
+    public function __invoke(
+        RegistrationForm $request
+    ): JsonResponse {
+        $this->service
+            ->register(
+                $request->getEmail(),
+                $request->getPassword()
+            )
+        ;
 
         return new JsonResponse('done');
     }
