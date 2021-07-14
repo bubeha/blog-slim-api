@@ -29,8 +29,18 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
-  App\Services\FormRequest\AbstractFormRequest:
+  App\Services\FormRequest\FormRequest:
     arguments:
       - '@validator'
     tags:
       - { name: controller.request_value_resolver, priority: 50 }
+
+  reset_password.hash_generator:
+    class: App\Services\ResetPassword\Generators\HashGenerator
+
+  App\Services\ResetPassword\ResetPasswordService:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@reset_password.hash_generator'
+      - '%env(APP_SECRET)%'
+      - '%env(RESET_PASSWORD_LIFETIME)%'
